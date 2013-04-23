@@ -9,6 +9,7 @@
             <li id="linksalir"><a href="<?= base_url() ?>/index.php/login/salir">Salir</a></li>
                 <?php
             }
+            
             ?>        
     </ul>  
 

@@ -5,24 +5,28 @@
  * and open the template in the editor.
  */
 
-class centro extends CI_Controller{
-    
+class centro extends CI_Controller {
+
     public function __construct() {
         parent::__construct();
     }
-    
-    public function index(){
+
+    public function index() {
         $datos = array();
-        if ($this->session->userdata('usuario') != false){
-            $datos['usuario']=$this->session->userdata('usuario');
+        $datos['linksmenu'] = array();
+        if ($this->session->userdata('usuario') != false) {
+            $usr = $this->session->userdata('usuario');
+            $datos['usuario'] = $usr;
+            if ($usr->rol_id == 1) {
+                array_push($datos['linksmenu'], crearObjetoLink('panel', base_url() . 'index.php/gestionarUsuarios'));
+            }
         }
-        
-        $this->load->view('headerPublico');
-        $this->load->view('centro_view',$datos);
+        $this->load->view('headerPublico',$datos);
+        $this->load->view('centro_view', $datos);
         $this->load->view('footerPublico');
     }
-}
 
+}
 ?>
 
 
