@@ -69,6 +69,51 @@ class usuarios extends CI_Model{
         return $this->db->get()->result();
     }
     
+    public function obtenerAdministradores(){
+        $this->db->select('nick,email,nombres,nombre as rol');
+        $this->db->from('administradores');
+        $this->db->join('adminrol','administradores.rol_id = adminrol.id');
+       return  $this->db->get()->result();
+    }
+ 
+    
+    public function actualizarUsuario($nick,$nombre,$email,$rol,$contra=null){
+        $usrporemail = $this->obtenerUsuarioPorEmail($email);
+        if (sizeof($usrporemail)>0){
+            $usrporemail = $usrporemail[0];
+            if ($usrporemail->nick != $nick){
+                return false;
+            }
+        }
+        
+        if (sizeof($this->obtenerUsuarioPorNick($nick))!=1){
+            return false;
+        }
+        $datos = array(
+            'nombres'=>$nombre,
+            'email'=>$email,
+            'rol_id'=>$rol
+            
+        );
+        
+        if ($contra != null){
+            $datos['password']=  md5($contra);
+            
+        }
+        $this->db->where('nick', $nick);
+        $this->db->update('administradores',$datos);
+        return true;
+    }
+    
+    public function eliminarUsuario($nick){
+        if ($nick == null || $nick == ''){
+            return false;
+        }
+        $this->db->where('nick',$nick);
+        $this->db->delete('administradores');
+        return true;
+        
+    }
 }
 
 ?>

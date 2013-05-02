@@ -11,7 +11,7 @@ if (isset($resultado)){
     
 }
 ?>
-<form action="<?= base_url() ?>index.php/gestionarUsuarios/crearUsuario" method="post">
+<form action="<?= base_url() ?>index.php/gestionarUsuarios/crearUsuario" method="post" class="form-horizontal">
     <label>Nombre Completo:</label>
     <input type="text" name="nombrecompleto" id="nombrecompleto">
     <label>Nick:</label>
@@ -31,8 +31,9 @@ if (isset($resultado)){
     </select>
     <label>Contraseña</label>
     <input type="password" name="contra" id="contra">
+    <div>
     <label> repetir Contraseña</label>
     <input type="password" name="repcontra" id="repcontra">
-    
-    <input type="submit" value="Agregar"> 
+    </div>
+    <input type="submit" value="Agregar" class="btn btn-primary"> 
 </form>
