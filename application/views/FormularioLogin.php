@@ -9,6 +9,8 @@ echo form_open('login/hacerlogin', $att)
 <input type="text" id="nick" name="nick" >
 <label>contraseña</label>
 <input type="password" name="password" id="password" >
+<input type="text" name="algo">
 <input type="submit" value="ingresar">
+
 
 <?= form_close(); ?>
