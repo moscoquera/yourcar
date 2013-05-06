@@ -13,3 +13,4 @@ echo form_open('login/hacerlogin', $att)
 
 
 <?= form_close(); ?>
+<a href="<?= base_url(); ?>index.php/login/recuperarContrasena">Recuperar Contraseña</a>

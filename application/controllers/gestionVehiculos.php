@@ -74,6 +74,12 @@ class gestionVehiculos extends CI_Controller{
         $this->load->view('footerPublico');
     }
     
+    public function modificarVehiculo(){
+        $this->load->view('headerPublico');
+        $this->load->view('FormularioCrearVehiculo',$datos);
+        $this->load->view('footerPublico');
+    }
+    
 }
 
 ?>

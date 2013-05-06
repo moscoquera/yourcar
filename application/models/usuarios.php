@@ -191,6 +191,12 @@ class usuarios extends CI_Model{
         return true;
         
     }
+    
+    public function actualizarContrasena($nick,$contra){
+        $this->db->where('nick',$nick);
+        $this->db->update('usuarios',array('password'=>  md5($contra)));
+        return true;
+    }
 }
 
 ?>

@@ -16,4 +16,14 @@ function nuevoEmailRegistro($nombre,$nick,$contra){
     return $texto;
     
 }
+
+function nuevaContrasena($nombre,$nick,$contra){
+    $texto="";
+    $texto="Hola $nombre. \n";
+    $texto.="Recibe este email, dado que se a creado una nueva contraseña para se cuenta\n";
+    $texto.="puede acceder al sistema usando: \n";
+    $texto.="nombre de usuario: $nick \n";
+    $texto.="contraseña: $contra\n";
+    return $texto;
+}
 ?>
