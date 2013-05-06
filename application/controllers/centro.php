@@ -18,7 +18,9 @@ class centro extends CI_Controller {
             $usr = $this->session->userdata('usuario');
             $datos['usuario'] = $usr;
             if ($usr->rol_id == 1) {
-                array_push($datos['linksmenu'], crearObjetoLink('panel', base_url() . 'index.php/gestionarUsuarios'));
+                array_push($datos['linksmenu'], crearObjetoLink('panel de usuarios', base_url() . 'index.php/gestionarUsuarios'));
+            }else if ($usr->rol_id==2){
+                array_push($datos['linksmenu'], crearObjetoLink('gestionar Vehiculos', base_url() . 'index.php/gestionVehiculos'));
             }
         }
         $this->load->view('headerPublico',$datos);

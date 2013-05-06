@@ -27,7 +27,7 @@ if (isset($usuario)) {
     <p>Nombre: <b><?= $usuario->nombres ?></b></br></p>
     <p>Email: <b><?= $usuario->email ?></b></br></p>
     
-    <form id="formulario" action="<?= base_url()?>index.php/gestionarUsuarios/eliminarUsuario" method="post">
+    <form id="formulario" action="<?= base_url()?>index.php/gestionarUsuarios/eliminarUsuario" method="post" onsubmit="return antes();">
         <input type="hidden" value="<?= $usuario->nick?>" name="nick">
             
         <input type="submit" value="Eliminar" name="eliminar">
@@ -36,3 +36,9 @@ if (isset($usuario)) {
     <?php
 }
 ?>
+
+    <script>
+        function antes(){
+            return confirm("Esta seguro que desea eliminar a este usuario?");
+        }
+    </script>

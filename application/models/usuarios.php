@@ -15,7 +15,7 @@ class usuarios extends CI_Model{
     
     public function buscarUsuario($nick,$pass){
         $this->db->select('*');
-        $this->db->from('administradores');
+        $this->db->from('usuarios');
         $this->db->where('nick', $nick);
         $this->db->where('password',  md5($pass));
         $res = $this->db->get();
@@ -30,11 +30,28 @@ class usuarios extends CI_Model{
     
     public function obtenerRoles(){
         $this->db->select('*');
-        $this->db->from('adminrol');
+        $this->db->from('rolusuarios');
+        $this->db->order_by('id');
         return $this->db->get()->result();
     }
     
-    public function insertarUsuario($nombre,$nick,$email,$contra,$rol){
+    public function obtenerTiposDocumentos(){
+        $this->db->select('*')->from('tipo_documento')->order_by('id');
+        return $this->db->get()->result();
+       
+    }
+    
+    public function obtenerGeneros(){
+        $this->db->select('*')->from('genero_usuarios')->order_by('id');
+        return $this->db->get()->result();
+    }
+    
+    public function obtenerTiposUsuario(){
+        $this->db->select('*')->from('tipo_usuarios');
+        return $this->db->get()->result();
+    }
+    
+    public function insertarUsuario($nombre, $nick, $email, $contra, $rol,$tipodoc,$numdoc,$fechanaci,$pais,$ciudad,$sangre,$genero,$tipo){
         if (sizeof($this->obtenerUsuarioPorEmail($email))>0){
             return false;
         }
@@ -42,21 +59,59 @@ class usuarios extends CI_Model{
         if (sizeof($this->obtenerUsuarioPorNick($nick))>0){
             return false;
         }
+        if (sizeof($this->obtenerUsuarioPorDocumento($numdoc))>0){
+            return false;
+        }
         $datos = array(
             'nombres'=>$nombre,
             'nick' =>$nick,
             'email'=>$email,
             'password'=>  md5($contra),
-            'rol_id'=>$rol
+            'rol_id'=>$rol,
+            'tipo_doc'=>$tipodoc,
+            'ndocumento'=>$numdoc,
+            'fechanacimiento'=>$fechanaci,
+            'pais'=>$pais,
+            'ciudad'=>$ciudad,
+            'tiposangre'=>  $sangre,
+            'genero' => $genero,
+            'tipo' => $tipo
             
         );
-        $this->db->insert('administradores',$datos);
+        $this->db->insert('usuarios',$datos);
+        return true;
+    }
+    
+    public function insertarContacto($nick,$nomcont,$telefono,$dircont){
+        if (sizeof($this->obtenerUsuarioPorNick($nick))==0){
+            return false;
+        }
+        $datos = array(
+            'dueno'=>$nick,
+            'nombre'=>$nomcont,
+            'telefono'=>$telefono,
+            'direccion'=>$dircont
+        );
+        $this->db->insert('contacto',$datos);
+    }
+    
+    public function actualizarContacto($dueno,$nombre,$telefono,$direccion){
+        $datos = array(
+            'nombre'=>$nombre,
+            'telefono'=>$telefono,
+            'direccion'=>$direccion
+        );
+        
+        $this->db->where('dueno', $dueno)->update('contacto',$datos);
+        if ($this->db->affected_rows()==0){
+            $this->insertarContacto($dueno, $nombre, $telefono, $direccion);
+        }
         return true;
     }
     
     public function obtenerUsuarioPorEmail($email){
         $this->db->select();
-        $this->db->from('administradores');
+        $this->db->from('usuarios');
         $this->db->where('email', $email);
         return $this->db->get()->result();
         
@@ -64,24 +119,37 @@ class usuarios extends CI_Model{
     
     public function obtenerUsuarioPorNick($nick){
         $this->db->select();
-        $this->db->from('administradores');
-        $this->db->where('nick', $nick);
+        $this->db->from('usuarios');
+        $this->db->where('nick', $nick)->join('contacto', 'usuarios.nick = contacto.dueno','left');
         return $this->db->get()->result();
     }
     
-    public function obtenerAdministradores(){
+    public function obtenerUsuarioPorDocumento($doc){
+        $this->db->select()->from('usuarios')->where('ndocumento', $doc);
+        return $this->db->get()->result();
+    }
+    
+    public function obtenerUsuarios(){
         $this->db->select('nick,email,nombres,nombre as rol');
-        $this->db->from('administradores');
-        $this->db->join('adminrol','administradores.rol_id = adminrol.id');
+        $this->db->from('usuarios');
+        $this->db->join('rolusuarios','usuarios.rol_id = rolusuarios.id');
        return  $this->db->get()->result();
     }
  
     
-    public function actualizarUsuario($nick,$nombre,$email,$rol,$contra=null){
+    public function actualizarUsuario($nombre, $nick, $email, $contra, $rol, $tipodoc, $numdoc, $fechanaci, $pais, $ciudad, $sangre, $genero, $tipo){
         $usrporemail = $this->obtenerUsuarioPorEmail($email);
         if (sizeof($usrporemail)>0){
             $usrporemail = $usrporemail[0];
             if ($usrporemail->nick != $nick){
+                return false;
+            }
+        }
+        
+        $usrpordoc = $this->obtenerUsuarioPorDocumento($numdoc);
+        if (sizeof($usrpordoc)>0){
+            $usrpordoc = $usrpordoc[0];
+            if ($usrpordoc->nick != $nick){
                 return false;
             }
         }
@@ -92,7 +160,16 @@ class usuarios extends CI_Model{
         $datos = array(
             'nombres'=>$nombre,
             'email'=>$email,
-            'rol_id'=>$rol
+            'password'=>  md5($contra),
+            'rol_id'=>$rol,
+            'tipo_doc'=>$tipodoc,
+            'ndocumento'=>$numdoc,
+            'fechanacimiento'=>$fechanaci,
+            'pais'=>$pais,
+            'ciudad'=>$ciudad,
+            'tiposangre'=>  $sangre,
+            'genero' => $genero,
+            'tipo' => $tipo
             
         );
         
@@ -101,7 +178,7 @@ class usuarios extends CI_Model{
             
         }
         $this->db->where('nick', $nick);
-        $this->db->update('administradores',$datos);
+        $this->db->update('usuarios',$datos);
         return true;
     }
     
@@ -110,7 +187,7 @@ class usuarios extends CI_Model{
             return false;
         }
         $this->db->where('nick',$nick);
-        $this->db->delete('administradores');
+        $this->db->delete('usuarios');
         return true;
         
     }

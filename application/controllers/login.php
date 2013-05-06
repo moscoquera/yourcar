@@ -35,6 +35,8 @@ class login extends CI_Controller {
         if ($this->form_validation->run() != false) {
             $usr = $this->usuarios->buscarUsuario($nick,$pass);
             if ($usr != false){
+                $usr = array('nick'=>$usr->nick,'nombres'=>$usr->nombres,'rol_id'=>$usr->rol_id);
+                $usr = (object)$usr;
                 $datos = array(
                     'usuario'=>$usr
                     
