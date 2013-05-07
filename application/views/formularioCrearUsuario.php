@@ -12,7 +12,7 @@ if (isset($resultado)) {
     }
 }
 ?>
-        <form action="<?= base_url() ?>index.php/gestionarUsuarios/crearUsuario" method="post" class="form-horizontal" onsubmit="return alenviar();">
+        <form method="post" class="form-horizontal" onsubmit="return alenviar();">
     <label>Nombre Completo:</label>
     <input type="text" name="nombrecompleto" id="nombrecompleto">
     
