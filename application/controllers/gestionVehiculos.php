@@ -240,7 +240,82 @@ class gestionVehiculos extends CI_Controller {
         $this->load->view('informacionVehiculo', $datos);
         $this->load->view('footerPublico');
     }
+    
+    public function vehiculosAlquilados(){
+        $datos = array();
+        
+        $usr = $this->session->userdata('usuario');
+        if ($usr == false) {
+            redirect(base_url());
+        }
+        
+        $datos['alquilados']=$this->Vehiculos->vehiculosAlquilados();
+        
+        $this->load->view('headerPublico');
+        $this->load->view('vehiculosAlquilados', $datos);
+        $this->load->view('footerPublico');
+        
+    }
 
+    public function vehiculosReservados(){
+        $datos = array();
+        
+        $usr = $this->session->userdata('usuario');
+        if ($usr == false) {
+            redirect(base_url());
+        }
+        
+        $datos['reservados']=$this->Vehiculos->vehiculosReservados();
+        
+        $this->load->view('headerPublico');
+        $this->load->view('vehiculosReservados', $datos);
+        $this->load->view('footerPublico');
+        
+    }
+    
+    public function vehiculosPorAtributos(){
+        $datos = array();
+        $datos['frenos'] = $this->Vehiculos->frenos();
+        $datos['direccion'] = $this->Vehiculos->direccion();
+        
+        $bus = $this->input->post('buscar');
+        if ($bus != FALSE){
+            $filtro = array();
+            if ($this->input->post('marca')!=false){
+                $filtro['marca']=$this->input->post('marca');
+            }
+            if ($this->input->post('modelo')!=false){
+                $filtro['modelo']=$this->input->post('modelo');
+            }
+            if ($this->input->post('color')!=false){
+                $filtro['color']=$this->input->post('color');
+            }
+            if ($this->input->post('cilindraje')!=false){
+                $filtro['cilindraje']=$this->input->post('cilindraje');
+            }
+            if ($this->input->post('frenos')!=false){
+                $filtro['frenos']=$this->input->post('frenos');
+            }
+            if ($this->input->post('direccion')!=false){
+                $filtro['direccion']=$this->input->post('direccion');
+            }
+            if ($this->input->post('pasajeros')!=false){
+                $filtro['npasajeros']=$this->input->post('pasajeros');
+            }
+            if ($this->input->post('tarifa')!=false){
+                $filtro['tarifa']=$this->input->post('tarifa');
+            }
+            if ($this->input->post('garantia')!=false){
+                $filtro['garantia']=$this->input->post('garantia');
+            }
+            $res = $this->Vehiculos->vehiculosPorAtributos($filtro);
+            $datos['vehiculos']=$res;
+        }
+        
+        $this->load->view('headerPublico');
+        $this->load->view('BuscarVehiculos', $datos);
+        $this->load->view('footerPublico');
+    }
 }
 
 ?>

@@ -11,7 +11,7 @@ class Vehiculos extends CI_Model{
         parent::__construct();
     }
  
-    public function frenos($id){
+    public function frenos($id=null){
         $this->db->select('*')->from('frenosvehiculo');
         if ($id != null){
             $this->db->where('id',$id);
@@ -98,6 +98,29 @@ class Vehiculos extends CI_Model{
     public function vehiculosDisponibles(){
         $res=$this->db->query('select distinct placa,marca,modelo,color,cilindraje,frenos,direccion,descripcion,npasajeros,fechasoat,fechaseguro,fecharevision,tarifa,garantia from vehiculo left join reserva on reserva.placavehiculo = vehiculo.placa where reserva.fechafin is null or reserva.fechafin < curdate();');
         return $res->result();
+    }
+    
+    public function vehiculosAlquilados(){
+        $res=$this->db->query('select distinct placa,marca,modelo,color,cilindraje,frenos,direccion,descripcion,npasajeros,fechasoat,fechaseguro,fecharevision,tarifa,garantia from vehiculo left join alquiler on alquiler.placavehiculo = vehiculo.placa where alquiler.fechafin > curdate();');
+        return $res->result();
+    }
+    
+    public function vehiculosReservados(){
+        $res=$this->db->query('select distinct placa,marca,modelo,color,cilindraje,frenos,direccion,descripcion,npasajeros,fechasoat,fechaseguro,fecharevision,tarifa,garantia from vehiculo left join reserva on reserva.placavehiculo = vehiculo.placa where reserva.fechafin > curdate();');
+        return $res->result();
+    }
+    
+    public function vehiculos(){
+        $this->db->select('*')->from('vehiculo');
+        return $this->db->get()->result();
+    }
+    
+    public function vehiculosPorAtributos($filtros){
+        $this->db->select('*')->from('vehiculo');
+        foreach ($filtros as $filtro => $valor){
+            $this->db->where($filtro,$valor);
+        }
+        return $this->db->get()->result();
     }
 }
 ?>
