@@ -10,6 +10,8 @@ class centro extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('Vehiculos');
+        $this->load->model('usuarios');
+        $this->output->enable_profiler(true);
     }
 
     public function index() {
@@ -20,38 +22,79 @@ class centro extends CI_Controller {
             $datos['usuario'] = $usr;
             if ($usr->rol_id == 1) {
                 array_push($datos['linksmenu'], crearObjetoLink('panel de usuarios', base_url() . 'index.php/gestionarUsuarios'));
-            }else if ($usr->rol_id==2){
+            } else if ($usr->rol_id == 2) {
                 array_push($datos['linksmenu'], crearObjetoLink('gestionar Vehiculos', base_url() . 'index.php/gestionVehiculos'));
             }
         }
         $tmpfrenos = $this->Vehiculos->frenos();
         $frenos = array();
-        foreach ($tmpfrenos as $obj){
-            $frenos[$obj->id]=$obj->nombre;
+        foreach ($tmpfrenos as $obj) {
+            $frenos[$obj->id] = $obj->nombre;
         }
-        
+
         $tmpvehiculos = $this->Vehiculos->direccion();
         $direcciones = array();
-        foreach ($tmpvehiculos as $obj){
-            $direcciones[$obj->id]=$obj->nombre;
+        foreach ($tmpvehiculos as $obj) {
+            $direcciones[$obj->id] = $obj->nombre;
         }
-        
+
         $tmp = $this->Vehiculos->vehiculos();
-        $datos['vehiculos']=array();
-        foreach ($tmp as $ve){
-            $ve->direccion=$direcciones[$ve->direccion];
-            $ve->frenos=$frenos[$ve->frenos];
+        $datos['vehiculos'] = array();
+        foreach ($tmp as $ve) {
+            $ve->direccion = $direcciones[$ve->direccion];
+            $ve->frenos = $frenos[$ve->frenos];
             array_push($datos['vehiculos'], $ve);
         }
-        $this->load->view('headerPublico',$datos);
+        $this->load->view('headerPublico', $datos);
         $this->load->view('centro_view', $datos);
         $this->load->view('footerPublico');
     }
 
-    public function cotizacion(){
-        
+    public function cotizacion($placa = null) {
+        $datos = array();
+        $this->load->view('headerPublico', $datos);
+
+        if ($placa != null) {
+            $res = $this->Vehiculos->buscarVehiculo($placa);
+            if (sizeof($res) > 0) {
+                $datos['vehiculo'] = $res[0];
+            }
+            $this->load->view('informacionVehiculo', $datos);
+        }
+        $cot = $this->input->post('btncotizar');
+        if ($cot != false) {
+            $this->form_validation->set_rules('horainicio', 'Hora de Inicio', 'required');
+            $this->form_validation->set_rules('horafin', 'Hora de Fin', 'required');
+            $this->form_validation->set_rules('lugarentrega', 'Lugar de Entrega', 'required');
+            $this->form_validation->set_rules('lugarrecepcion', 'Lugar de Recepcion', 'required');
+            if ($this->form_validation->run() != FALSE) {
+                $usr = $this->input->post('email');
+                if ($usr != false) {
+                    $this->usuarios->anadirAPotencialesClientes($usr);
+                }
+                $horai = $this->input->post('horainicio');
+                $horaf = $this->input->post('horafin');
+                $horai = DateTime::createFromFormat('d/m/Y H:i', $horai);
+                $horaf = DateTime::createFromFormat('d/m/Y H:i', $horaf);
+
+                $placa = $this->input->post('placa');
+                if ($horai > $horaf) {
+                    $datos['resultado'] = 'errfecha';
+                } else {
+                    $tiempo = $horaf->diff($horai);
+                    $veh = $this->Vehiculos->buscarVehiculo($placa);
+                    $veh = $veh[0];
+                    $costo = ($veh->tarifa * $tiempo->d);
+                    $costo+= ($tiempo->h <= 6) ? ($veh->tarifa / 4) : $veh->tarifa;
+                    $datos['resultado'] = 'si';
+                    $datos['costo'] = $costo;
+                }
+            }
+        }
+        $this->load->view('Cotizacion', $datos);
+        $this->load->view('footerPublico');
     }
-    
+
 }
 ?>
 

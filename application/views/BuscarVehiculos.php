@@ -7,7 +7,7 @@
         <td>Modelo</td>
         <td>Color</td>
         <td>Cilindraje (c.c.)</td>
-        </thead>
+    </thead>
     <tbody><?php foreach ($vehiculos as $vehiculo) { ?>
             <tr>
                 <td><a href="<?= base_url() ?>index.php/gestionVehiculos/ver/<?= $vehiculo->placa ?>"><?= $vehiculo->placa ?></a></td>

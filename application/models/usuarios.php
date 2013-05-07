@@ -197,6 +197,13 @@ class usuarios extends CI_Model{
         $this->db->update('usuarios',array('password'=>  md5($contra)));
         return true;
     }
+    
+    public function anadirAPotencialesClientes($email){
+        if (sizeof($this->db->where('email',$email)->get('potencialesclientes')->result()) == 0){
+            $this->db->insert('potencialesclientes',array('email'=>$email));
+        }
+        return true;
+    }
 }
 
 ?>
