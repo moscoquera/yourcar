@@ -11,13 +11,20 @@ class Vehiculos extends CI_Model{
         parent::__construct();
     }
  
-    public function frenos(){
+    public function frenos($id){
         $this->db->select('*')->from('frenosvehiculo');
+        if ($id != null){
+            $this->db->where('id',$id);
+        }
         return $this->db->get()->result();
     }
     
-    public function direccion(){
+    public function direccion($dir=null){
         $this->db->select('*')->from('direccionvehiculo');
+        if ($dir != null){
+            $this->db->where('id',$dir);
+        }
+        
         return $this->db->get()->result();
         
     }
@@ -86,6 +93,11 @@ class Vehiculos extends CI_Model{
         }
          $this->db->where('placa',$placa)->delete('vehiculo');
          return true;
+    }
+    
+    public function vehiculosDisponibles(){
+        $res=$this->db->query('select distinct placa,marca,modelo,color,cilindraje,frenos,direccion,descripcion,npasajeros,fechasoat,fechaseguro,fecharevision,tarifa,garantia from vehiculo left join reserva on reserva.placavehiculo = vehiculo.placa where reserva.fechafin is null or reserva.fechafin < curdate();');
+        return $res->result();
     }
 }
 ?>

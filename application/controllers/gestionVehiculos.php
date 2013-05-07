@@ -197,6 +197,49 @@ class gestionVehiculos extends CI_Controller {
         $this->load->view('footerPublico');
         
     }
+    
+    public function vehiculosDisponibles(){
+        $datos = array();
+        
+        $usr = $this->session->userdata('usuario');
+        if ($usr == false) {
+            redirect(base_url());
+        }
+        
+        $datos['disponibles']=$this->Vehiculos->vehiculosDisponibles();
+        
+        $this->load->view('headerPublico');
+        $this->load->view('vehiculosDisponibles', $datos);
+        $this->load->view('footerPublico');
+    }
+    
+    public function ver($placa=null){
+        $datos = array();
+        
+        $usr = $this->session->userdata('usuario');
+        if ($usr == false) {
+            redirect(base_url());
+        }
+        
+        if ($placa != null){
+            $buscar = $this->Vehiculos->buscarVehiculo($placa);
+            if (sizeof($buscar)>0){
+                $datos['vehiculo']=$buscar[0];
+                $res = $this->Vehiculos->direccion($datos['vehiculo']->direccion);
+                if (sizeof($res)>0){
+                    $datos['vehiculo']->direccion=$res[0]->nombre;
+                }
+                $res = $this->Vehiculos->frenos($datos['vehiculo']->frenos);
+                if (sizeof($res)>0){
+                    $datos['vehiculo']->frenos=$res[0]->nombre;
+                }
+                
+            }
+        }
+        $this->load->view('headerPublico');
+        $this->load->view('informacionVehiculo', $datos);
+        $this->load->view('footerPublico');
+    }
 
 }
 
