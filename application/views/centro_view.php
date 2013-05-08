@@ -1,3 +1,4 @@
+<div>
 <div id="menunavegacionpublico">
     <ul>
         <?php if (!isset($usuario)) { ?>
@@ -49,3 +50,4 @@ if (isset($vehiculos)) {
 }
 ?>
 </table>
+</div>
