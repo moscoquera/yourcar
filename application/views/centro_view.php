@@ -40,7 +40,10 @@ if (isset($vehiculos)) {
         <td><?= $vehiculo->npasajeros ?></td>
         <td><?= $vehiculo->tarifa ?></td>
         <td><?= $vehiculo->garantia ?></td>
-        <td><a href="<?= base_url() ?>index.php/centro/cotizacion/<?= $vehiculo->placa?>">Cotizar</a></td>
+        <td>
+            <a href="<?= base_url() ?>index.php/centro/cotizacion/<?= $vehiculo->placa?>">Cotizar</a>
+            <a href="<?= base_url() ?>index.php/GestorReservas/index/<?= $vehiculo->placa ?>">Reservar</a>
+        </td>
     <?php
     }
 }

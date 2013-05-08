@@ -11,6 +11,7 @@ class centro extends CI_Controller {
         parent::__construct();
         $this->load->model('Vehiculos');
         $this->load->model('usuarios');
+        $this->load->model('reservas');
         $this->output->enable_profiler(true);
     }
 
@@ -52,6 +53,7 @@ class centro extends CI_Controller {
 
     public function cotizacion($placa = null) {
         $datos = array();
+        $datos['lugares']=$this->reservas->obtenerLugares();
         $this->load->view('headerPublico', $datos);
 
         if ($placa != null) {
@@ -81,11 +83,19 @@ class centro extends CI_Controller {
                 if ($horai > $horaf) {
                     $datos['resultado'] = 'errfecha';
                 } else {
+                    $lugari = $this->input->post('lugarentrega');
+                    $lugarf = $this->input->post('lugarrecepcion');
                     $tiempo = $horaf->diff($horai);
                     $veh = $this->Vehiculos->buscarVehiculo($placa);
                     $veh = $veh[0];
                     $costo = ($veh->tarifa * $tiempo->d);
                     $costo+= ($tiempo->h <= 6) ? ($veh->tarifa / 4) : $veh->tarifa;
+                    
+                    $tari = $this->reservas->obtenerLugares($lugari);
+                    $costo+=$tari[0]->valor;
+                    
+                    $tari = $this->reservas->obtenerLugares($lugarf);
+                    $costo+=$tari[0]->valor;
                     $datos['resultado'] = 'si';
                     $datos['costo'] = $costo;
                 }
