@@ -11,18 +11,33 @@ class gestionVehiculos extends CI_Controller {
         parent::__construct();
 
         $this->load->model('Vehiculos');
+        $this->load->model('mmantenimientos');
 
         $this->output->enable_profiler(true);
     }
 
     public function index() {
+        $datos = array();
         $usr = $this->session->userdata('usuario');
         if ($usr == false || $usr->rol_id != '2') {
             redirect(base_url());
         }
 
+        $btn = $this->input->post('buscar');
+        if ($btn != FALSE){
+            $this->form_validation->set_rules('texto','texto','required');
+            if ($this->form_validation->run()!=false){
+                $placa = $this->input->post('texto');
+                $res = $this->Vehiculos->buscarVehiculo($placa);
+                if (sizeof($res)>0){
+                    redirect('gestionVehiculos/ver/'.$placa);
+                }else{
+                    $datos['res']='no';
+                }
+            }
+        }
         $this->load->view('headerPublico');
-        $this->load->view('indexVehiculos');
+        $this->load->view('indexVehiculos',$datos);
         $this->load->view('footerPublico');
     }
 
@@ -233,7 +248,19 @@ class gestionVehiculos extends CI_Controller {
                 if (sizeof($res)>0){
                     $datos['vehiculo']->frenos=$res[0]->nombre;
                 }
+               $tip =  $this->mmantenimientos->tipos();
+               $tipos = array();
+               foreach($tip as $t){
+                   $tipos[$t->id]=$t->nombre;
+               }
                 
+             $tmp = $this->mmantenimientos->mantenimientosPorPlaca($placa);
+             
+             $datos['mantenimientos'] = array();
+             foreach ($tmp as $man){
+                 $man->tipo= $tipos[$man->tipo];
+                 array_push($datos['mantenimientos'], $man);
+             }
             }
         }
         $this->load->view('headerPublico');

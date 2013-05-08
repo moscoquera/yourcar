@@ -26,4 +26,16 @@ function nuevaContrasena($nombre,$nick,$contra){
     $texto.="contraseña: $contra\n";
     return $texto;
 }
+
+function nuevaPagoReserva($id,$nick,$nombre,$documento){
+    $texto="";
+    $texto="Hola \n";
+    $texto.="EL usuario $nick ha ingresado un nuevo comprobante de pago\n";
+    $texto.="para la reserva $id\n\n\n";
+    $texto.="La información del Cliente es la Siguiente:\n";
+    $texto.="Nombre Completo: $nombre";
+    $texto.="Documento N°: $documento";
+    $texto.="Reserva N°: $id";
+    return $texto;
+}
 ?>

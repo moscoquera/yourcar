@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://190.151.198.56/yourcar';
+$config['base_url']	= 'http://localhost/yourcar';
 
 /*
 |--------------------------------------------------------------------------

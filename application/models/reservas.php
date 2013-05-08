@@ -21,7 +21,25 @@ class reservas extends CI_Model{
         return true;
         
     }
+    public function reservasPorUsuario($nick){
+      return  $this->db->where('usuarioid',$nick)->get('reserva')->result();
+    }
     
+    public function reserva($id){
+        $res=$this->db->where('id',$id)->get('reserva')->result();
+        if (sizeof($res)==0){
+            return null;
+        }else {
+            return $res[0];
+        }
+        
+    }
+    
+    public function actualizarPago($id,$ruta){
+        $datos = array('prueba'=>$ruta);
+        $this->db->where('id',$id)->update('reserva', $datos);
+        return true;
+    }
 }
 
 ?>

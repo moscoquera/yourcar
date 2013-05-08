@@ -204,6 +204,17 @@ class usuarios extends CI_Model{
         }
         return true;
     }
+    
+    public function emailsAdministradoresEmpresa(){
+        $res= $this->db->select('email')->where('rol_id','2')->get('usuarios')->result();
+        $tmp = array();
+        foreach ($res as $obj){
+            array_push($tmp, $obj->email);
+        }
+        
+        return $tmp;
+    }
+    
 }
 
 ?>

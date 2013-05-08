@@ -24,7 +24,32 @@ if (isset($vehiculo)) {
     <label>Fecha de la TenicoMecanica: <?= $vehiculo->fecharevision ?></label>
     <label>Tarifa: <?= $vehiculo->tarifa ?></label>
     <label>Garantia: <?= $vehiculo->garantia ?></label>
-    
 
+
+<?php
+}
+if (isset($mantenimientos)) {
+    ?>
+    <table>
+        <thead>
+        <td>id</td>
+        <td>Fecha de inicio</td>
+        <td>Fecha de Fin</td>
+        <td>Tipo</td>
+        <td>Valor</td>
+    </thead>
+    <tbody> 
+    <?php foreach ($mantenimientos as $man) { ?>
+            <tr>    
+                <td><?= $man->id ?></td>
+                <td><?= $man->fecha_ingreso ?></td>
+                <td><?= $man->fecha_fin ?></td>
+                <td><?= $man->tipo ?></td>
+                <td><?= $man->valor ?></td>
+            </tr>
+        <?php }
+        ?>
+    </tbody>
+    </table>
 <?php }
 ?>
