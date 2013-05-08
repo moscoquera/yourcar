@@ -40,6 +40,17 @@ class reservas extends CI_Model{
         $this->db->where('id',$id)->update('reserva', $datos);
         return true;
     }
+    
+    public function validarPago($id,$valor){
+        if ($valor == true){
+            $valor='1';
+        }else{
+            $valor='0';
+        }
+        $datos = array('pagada'=>$valor);
+        $this->db->where('id',$id)->update('reserva',$datos);
+        return true;
+    }
 }
 
 ?>

@@ -3,8 +3,16 @@
 </ul>
 <?php
 echo validation_errors();
+if (isset($resultado)){
+    if ($resultado=='si'){ ?>
+<b>Reserva Actualizada</b>
+   <?php }else{ ?>
+<b>Error Actualizando Reserva</b>
+   <?php }
+    
+}
 ?>
-<form method="post">
+<form method="post" action="<?= base_url() ?>index.php/GestorReservas">
     <label>Buscar Por ID:</label>
     <input type="text" name="id">
     <input type="submit" value="Buscar" name="buscar">

@@ -197,8 +197,15 @@ class GestorReservas extends CI_Controller {
             redirect('login');
         }
         if ($reserva != null){
+            $re = $this->reservas->reserva($reserva);
+            $usuario = $this->usuarios->obtenerUsuarioPorNick($re->usuarioid);
+            $usuario = $usuario[0];
+            $this->reservas->validarPago($reserva,true);
+            $datos['resultado']='si';
             
-            
+            $this->gestormensajes->enviarEmail($usuario->email,'Actualizacion de Estado de Reserva',actualizacionPago($reserva->id, $usuario->nombres, 'Aprobada'));
+        }else{
+            $datos['resultado']='no';
         }
         
         $this->load->view('headerPublico');
@@ -207,6 +214,22 @@ class GestorReservas extends CI_Controller {
     }
     
     public function negarPago($reserva = null){
+        $datos = array();
+        $usr = $this->session->userdata('usuario');
+        if ($usr == false || $usr->rol_id != 2) {
+            redirect('login');
+        }
+        if ($reserva != null){
+            $usuario = $this->usuarios->obtenerUsuarioPorNick($reserva->usuarioid);
+            $usuario = $usuario[0];
+                
+            $this->reservas->validarPago($reserva,false);
+            $datos['resultado']='si';
+            
+            $this->gestormensajes->enviarEmail($usuario->email,'Actualizacion de Estado de Reserva',actualizacionPago($reserva->id, $usuario->nombres, 'Reprobado'));
+        }else{
+            $datos['resultado']='no';
+        }
         $this->load->view('headerPublico');
         $this->load->view('formularioIngresarPago', $datos);
         $this->load->view('footerPublico');

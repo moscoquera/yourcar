@@ -38,4 +38,13 @@ function nuevaPagoReserva($id,$nick,$nombre,$documento){
     $texto.="Reserva N°: $id";
     return $texto;
 }
+
+function actualizacionPago($id,$nombre,$estado){
+    $texto="";
+    $texto="Hola $nombre\n";
+    $texto.="Recibe este email, debido a que uno de los administradores a establecido\n";
+    $texto.="el estado de su reserva con id N° $id\n";
+    $texto.="En el Estado de:  $estado\n";
+    return $texto;
+}
 ?>
