@@ -25,7 +25,9 @@ class centro extends CI_Controller {
                 array_push($datos['linksmenu'], crearObjetoLink('panel de usuarios', base_url() . 'index.php/gestionarUsuarios'));
             } else if ($usr->rol_id == 2) {
                 array_push($datos['linksmenu'], crearObjetoLink('gestionar Vehiculos', base_url() . 'index.php/gestionVehiculos'));
-                 array_push($datos['linksmenu'], crearObjetoLink('Modificar Información', base_url() . 'index.php/informacion/modificarInformacion'));
+                array_push($datos['linksmenu'], crearObjetoLink('Modificar Información', base_url() . 'index.php/informacion/modificarInformacion'));
+                array_push($datos['linksmenu'], crearObjetoLink('Mantenimientos', base_url() . 'index.php/mantenimientos'));
+            
             }
         }
         $tmpfrenos = $this->Vehiculos->frenos();
