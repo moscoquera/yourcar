@@ -23,10 +23,11 @@ if (isset($estado)){
 
 if (isset($usuario)) {
     ?>
+    <br><br/>
     <p>Nick: <b><?= $usuario->nick ?></b></br></p>
     <p>Nombre: <b><?= $usuario->nombres ?></b></br></p>
     <p>Email: <b><?= $usuario->email ?></b></br></p>
-    
+    <br><br/>
     <form id="formulario" action="<?= base_url()?>index.php/gestionarUsuarios/eliminarUsuario" method="post" onsubmit="return antes();">
         <input type="hidden" value="<?= $usuario->nick?>" name="nick">
             
