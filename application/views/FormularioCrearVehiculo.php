@@ -59,7 +59,15 @@ if (isset($estado)) {
     <input type="date" name="fechatec">
     <br /><br /><label>Tarifa:</label>
     <input type="number" name="tarifa" min="0">
-    <br /><br /><label>Garantia(Meses):</label> 
-    <input type="number" name="garantia" min="0">  <br /> <br />
+    <br /><br /><label>Garantia(Voucher):</label> 
+    <input type="number" name="garantia" min="0">  <br />
+    <br /><br /><label>Kms por Dias:</label> 
+    <input type="number" name="kmsdia" min="0">  <br />
+    <br /><br /><label>Iva:</label> 
+    <input type="number" name="iva" min="0">  <br />
+    <br /><br /><label>Valor Galon de Gasolina:</label> 
+    <input type="number" name="gasolina" min="0">  <br />
+    <br /><br /><label>Valor Lavada</label> 
+    <input type="number" name="lavada" min="0">  <br />
     <input type="submit" value="Agregar"> 
 </form>

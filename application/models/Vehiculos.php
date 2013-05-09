@@ -29,7 +29,7 @@ class Vehiculos extends CI_Model{
         
     }
     
-    public function insertarVehiculo($placa,$marca,$modelo,$color,$cilindraje,$frenos,$direccion,$descripcion,$pasajeros,$fechasoat,$fechaseguro,$fecharevision,$tarifa,$garantia){
+    public function insertarVehiculo($placa,$marca,$modelo,$color,$cilindraje,$frenos,$direccion,$descripcion,$pasajeros,$fechasoat,$fechaseguro,$fecharevision,$tarifa,$garantia,$kmsdia,$iva,$gasolina,$lavada){
      
         if (sizeof($this->buscarVehiculo($placa))>0){
             return false;
@@ -48,7 +48,11 @@ class Vehiculos extends CI_Model{
             'fechaseguro'=>$fechaseguro,
             'fecharevision'=>$fecharevision,
             'tarifa'=>$tarifa,
-            'garantia'=>$garantia
+            'garantia'=>$garantia,
+            'kmsdia'=>$kmsdia,
+            'iva'=>$iva,
+            'valorgasolina'=>$gasolina,
+            'valorlavada'=>$lavada
             
         );
         $this->db->insert('vehiculo', $datos);

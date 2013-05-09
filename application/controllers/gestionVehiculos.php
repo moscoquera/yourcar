@@ -81,7 +81,10 @@ class gestionVehiculos extends CI_Controller {
         $this->form_validation->set_rules('fechatec', 'fecha de revision tecnica', 'required');
         $this->form_validation->set_rules('tarifa', 'tarifa', 'required|is_natural');
         $this->form_validation->set_rules('garantia', 'garantia', 'required|is_natural');
-
+        $this->form_validation->set_rules('kmsdia','Kilometros por dia','required|is_natural');
+        $this->form_validation->set_rules('iva','Iva','required|is_natural');
+        $this->form_validation->set_rules('gasolina','Valor Galon de Gasolina','required|is_natural');
+        $this->form_validation->set_rules('lavada','Valor de la Lavada','required|is_natural');
         if ($this->form_validation->run() != FALSE) {
             $placa = $this->input->post('placa');
             $marca = $this->input->post('marca');
@@ -97,7 +100,11 @@ class gestionVehiculos extends CI_Controller {
             $fechatec = $this->input->post('fechatec');
             $tarifa = $this->input->post('tarifa');
             $garantia = $this->input->post('garantia');
-            $res = $this->Vehiculos->insertarVehiculo($placa, $marca, $modelo, $color, $cilindraje, $frenos, $direccion, $descripcion, $pasajeros, $fechasoat, $fechaseg, $fechatec, $tarifa, $garantia);
+            $kmsdia = $this->input->post('kmsdia');
+            $iva = $this->input->post('iva');
+            $gasolina = $this->input->post('gasolina');
+            $lavada = $this->input->post('lavada');
+            $res = $this->Vehiculos->insertarVehiculo($placa, $marca, $modelo, $color, $cilindraje, $frenos, $direccion, $descripcion, $pasajeros, $fechasoat, $fechaseg, $fechatec, $tarifa, $garantia,$kmsdia,$iva,$gasolina,$lavada);
             if ($res == true) {
                 $this->datos['estado'] = 'si';
             } else {
