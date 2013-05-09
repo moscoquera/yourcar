@@ -8,32 +8,48 @@
 class gestionarUsuarios extends CI_Controller {
 
     var $menu = array();
-
+    static $datos;
     public function __construct() {
         parent::__construct();
         $this->load->model('usuarios');
         $this->load->library('gestormensajes');
         $this->load->helper('correo');
+        
+        $this->datos = array();
+        $this->datos['linksmenu'] = array();
+
+        $usr = $this->session->userdata('usuario');
+        $this->datos['usuario'] = $usr;
+        if ($usr->rol_id == 1) {
+            array_push($this->datos['linksmenu'], crearObjetoLink('PANEL DE USUARIOS', base_url() . 'index.php/gestionarUsuarios'));
+        } else if ($usr->rol_id == 2) {
+            array_push($this->datos['linksmenu'], crearObjetoLink('Mis Reservas', base_url() . 'index.php/GestorReservas'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Gestionar Vehiculos', base_url() . 'index.php/gestionVehiculos'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Modificar Información', base_url() . 'index.php/informacion/modificarInformacion'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Mantenimientos', base_url() . 'index.php/mantenimientos'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Registrar Voucher', base_url() . 'index.php/GestionVoucher/nuevoVoucher'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Consultar Voucher', base_url() . 'index.php/GestionVoucher'));
+        } else if ($usr->rol_id == 3) {
+            array_push($this->datos['linksmenu'], crearObjetoLink('Mis Reservas', base_url() . 'index.php/GestorReservas'));
+        }
     }
 
     public function index() {
-        $datos = array();
-        $datos['linksmenu'] = $this->menu;
-        $datos['usuarios'] = $this->usuarios->obtenerUsuarios();
-        $this->load->view('headerPublico', $datos);
-        $this->load->view('PanelAdminTec', $datos);
+        $this->datos['usuarios'] = $this->usuarios->obtenerUsuarios();
+        $this->load->view('headerPublico', $this->datos);
+        $this->load->view('PanelAdminTec', $this->datos);
         $this->load->view('footerPublico');
     }
 
     public function crearUsuario() {
 
         array_push($this->menu, crearObjetoLink('usuarios', base_url() . 'index.php/gestionarUsuarios'));
-        $datos = array();
-        $datos['linksmenu'] = $this->menu;
-        $datos['roles'] = $this->usuarios->obtenerRoles();
-        $datos['documentos'] = $this->usuarios->obtenerTiposDocumentos();
-        $datos['generos'] = $this->usuarios->obtenerGeneros();
-        $datos['tipousuarios'] = $this->usuarios->obtenerTiposUsuario();
+        
+        $this->datos['linksmenu'] = $this->menu;
+        $this->datos['roles'] = $this->usuarios->obtenerRoles();
+        $this->datos['documentos'] = $this->usuarios->obtenerTiposDocumentos();
+        $this->datos['generos'] = $this->usuarios->obtenerGeneros();
+        $this->datos['tipousuarios'] = $this->usuarios->obtenerTiposUsuario();
 
         $this->form_validation->set_rules('nombrecompleto', 'Nombre', 'required|max_length[100]');
         $this->form_validation->set_rules('nick', 'nombre de usuario', 'required|max_length[45]|alpha_numeric');
@@ -88,32 +104,32 @@ class gestionarUsuarios extends CI_Controller {
             //$res = $this->usuarios->insertarUsuario($nombre, $nick, $email, $contra, $rol);
             if ($res) {
                 $this->gestormensajes->enviarEmail($email, 'Registro de usuario', nuevoEmailRegistro($nombre, $nick, $contra));
-                $datos['resultado'] = 'si';
+                $this->datos['resultado'] = 'si';
             } else {
-                $datos['resultado'] = 'no';
+                $this->datos['resultado'] = 'no';
             }
         }
 
 
-        $this->load->view('headerPublico', $datos);
-        $this->load->view('formularioCrearUsuario', $datos);
+        $this->load->view('headerPublico', $this->datos);
+        $this->load->view('formularioCrearUsuario', $this->datos);
         $this->load->view('footerPublico');
     }
 
     public function modificarUsuario($nick = null) {
-        $datos = array();
-        $datos['linksmenu'] = $this->menu;
+        
+        $this->datos['linksmenu'] = $this->menu;
 
         if ($nick != null) {
             $usr = $this->usuarios->obtenerUsuarioPorNick($nick);
 
             if (sizeof($usr) == 1) {
                 $usr = $usr[0];
-                $datos['usuario'] = $usr;
-                $datos['roles'] = $this->usuarios->obtenerRoles();
-                $datos['documentos'] = $this->usuarios->obtenerTiposDocumentos();
-                $datos['generos'] = $this->usuarios->obtenerGeneros();
-                $datos['tipousuarios'] = $this->usuarios->obtenerTiposUsuario();
+                $this->datos['usuario'] = $usr;
+                $this->datos['roles'] = $this->usuarios->obtenerRoles();
+                $this->datos['documentos'] = $this->usuarios->obtenerTiposDocumentos();
+                $this->datos['generos'] = $this->usuarios->obtenerGeneros();
+                $this->datos['tipousuarios'] = $this->usuarios->obtenerTiposUsuario();
             }
         }
 
@@ -171,46 +187,46 @@ class gestionarUsuarios extends CI_Controller {
                 $this->usuarios->actualizarContacto($nick, $nomcont, $telefono, $dircont);
             }
             if ($res) {
-                $datos['resultado'] = 'si';
+                $this->datos['resultado'] = 'si';
                 $usr = $this->usuarios->obtenerUsuarioPorNick($nick);
                 $usr = $usr[0];
-                $datos['usuario'] = $usr;
+                $this->datos['usuario'] = $usr;
             } else {
-                $datos['resultado'] = 'no';
+                $this->datos['resultado'] = 'no';
             }
         }
 
-        $this->load->view('headerPublico', $datos);
-        $this->load->view('formularioModificarUsuario', $datos);
+        $this->load->view('headerPublico', $this->datos);
+        $this->load->view('formularioModificarUsuario', $this->datos);
         $this->load->view('footerPublico');
     }
 
     function eliminarUsuario($nick = null) {
-        $datos = array();
-        $datos['linksmenu'] = $this->menu;
+        
+        $this->datos['linksmenu'] = $this->menu;
 
-        $this->load->view('headerPublico', $datos);
+        $this->load->view('headerPublico', $this->datos);
         $usr = $this->usuarios->obtenerUsuarioPorNick($nick);
         if (sizeof($usr) == 1) {
             $usr = $usr[0];
-            $datos['usuario'] = $usr;
+            $this->datos['usuario'] = $usr;
         }
         if ($this->input->post('eliminar') != false) {
             $nick = $this->input->post('nick');
             $yo = $this->session->userdata('usuario');
             if ($nick == $yo->nick) {
-                $datos['estado'] = 'error';
+                $this->datos['estado'] = 'error';
             } else {
                 $res = $this->usuarios->eliminarUsuario($nick);
                 if ($res) {
-                    $datos['estado'] = 'si';
+                    $this->datos['estado'] = 'si';
                 } else {
-                    $datos['estado'] = 'no';
+                    $this->datos['estado'] = 'no';
                 }
             }
         }
 
-        $this->load->view('formularioBorrarUsuario', $datos);
+        $this->load->view('formularioBorrarUsuario', $this->datos);
         $this->load->view('footerPublico');
     }
 

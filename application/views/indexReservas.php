@@ -1,15 +1,19 @@
-<ul>
-   <br /> <br /><li><a href="<?= base_url() ?>index.php/GestorReservas/reservar">RESERVAR</a></li><br />
-</ul>
+<div class="row">
+<div class="span3">
+    <ul class="nav nav-list">
+        <li class="active"><a href="<?= base_url() ?>index.php/GestorReservas/reservar">RESERVAR</a></li><br />
+    </ul>
+</div>
 <?php
 echo validation_errors();
-if (isset($resultado)){
-    if ($resultado=='si'){ ?>
-<b>Reserva Actualizada</b>
-   <?php }else{ ?>
-<b>Error Actualizando Reserva</b>
-   <?php }
-    
+if (isset($resultado)) {
+    if ($resultado == 'si') {
+        ?>
+        <b>Reserva Actualizada</b>
+    <?php } else { ?>
+        <b>Error Actualizando Reserva</b>
+    <?php
+    }
 }
 ?>
 <form method="post" action="<?= base_url() ?>index.php/GestorReservas">
@@ -17,6 +21,7 @@ if (isset($resultado)){
     <input type="text" name="id">
     <input type="submit" value="Buscar" name="buscar">
 </form>
+</div>
 <?php
 if (isset($resultado)) {
     if ($resultado == 'no') {
@@ -36,17 +41,16 @@ if (isset($resultado)) {
         <?php if ($reserva->prueba != null) { ?>
             <label>Comprobante de Pago:</label>
             <img src="<?= base_url() ?>uploads/<?= $reserva->prueba ?>">
-            <?php 
-                if ($reserva->pagada != '1'){ ?>
-            <a href="<?= base_url()?>index.php/GestorReservas/aprobarPago/<?= $reserva->id ?>">Aprobar</a>
-            <a href="<?= base_url()?>index.php/GestorReservas/negarPago/<?= $reserva->id ?>">Denegar</a>
-              <?php  }
+            <?php if ($reserva->pagada != '1') { ?>
+                <a href="<?= base_url() ?>index.php/GestorReservas/aprobarPago/<?= $reserva->id ?>">Aprobar</a>
+                <a href="<?= base_url() ?>index.php/GestorReservas/negarPago/<?= $reserva->id ?>">Denegar</a>
+            <?php }
             ?>
-            
+
         <?php }
         ?>
 
-    <?php
+        <?php
     }
 }
 ?>

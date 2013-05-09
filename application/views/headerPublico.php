@@ -16,7 +16,7 @@
         </head>
     <body>
         
-        <div class="container">
+        <div class="container row">
         <div class="navbar">
             <div class="navbar-inner">
                 <a class="brand" href="<?= base_url(); ?>">YOURCAR</a>

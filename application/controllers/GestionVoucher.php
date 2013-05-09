@@ -6,16 +6,33 @@
  */
 
 class GestionVoucher extends CI_Controller{
+    static $datos = array();
     
     public function __construct() {
         parent::__construct();
         
         $this->load->model('usuarios');
         $this->load->model('voucher');
+        
+        $this->datos = array();
+        $this->datos['linksmenu'] = array();
+
+        $usr = $this->session->userdata('usuario');
+        if ($usr->rol_id == 1) {
+            array_push($this->datos['linksmenu'], crearObjetoLink('PANEL DE USUARIOS', base_url() . 'index.php/gestionarUsuarios'));
+        } else if ($usr->rol_id == 2) {
+            array_push($this->datos['linksmenu'], crearObjetoLink('Mis Reservas', base_url() . 'index.php/GestorReservas'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Gestionar Vehiculos', base_url() . 'index.php/gestionVehiculos'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Modificar Información', base_url() . 'index.php/informacion/modificarInformacion'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Mantenimientos', base_url() . 'index.php/mantenimientos'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Registrar Voucher', base_url() . 'index.php/GestionVoucher/nuevoVoucher'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Consultar Voucher', base_url() . 'index.php/GestionVoucher'));
+        } else if ($usr->rol_id == 3) {
+            array_push($this->datos['linksmenu'], crearObjetoLink('Mis Reservas', base_url() . 'index.php/GestorReservas'));
+        }
     }
     
     public function index(){
-        $datos = array();
         $usr = $this->session->userdata('usuario');
         if ($usr == false){
             redirect(base_url().'index.php/login');
@@ -29,22 +46,22 @@ class GestionVoucher extends CI_Controller{
             $docu = $this->input->post('documento');
             $usuario = $this->usuarios->obtenerUsuarioPorDocumento($docu);
             if (sizeof($usuario)==0){
-                $datos['resultado']='no';
+                $this->datos['resultado']='no';
             }else{
-                $datos['resultado']='si';
-                $datos['usuario']=$usuario[0];
+                $this->datos['resultado']='si';
+                $this->datos['usuario']=$usuario[0];
                 
                 $vouchers = $this->voucher->obtenerInfoDelCliente($docu);
-                $datos['vouchers']=$vouchers;
+                $this->datos['vouchers']=$vouchers;
             }
         }
-        $this->load->view('headerPublico');
-        $this->load->view('BuscarClientedeAlquiler',$datos);
+        
+        $this->load->view('headerPublico',$this->datos);
+        $this->load->view('BuscarClientedeAlquiler',$this->datos);
         $this->load->view('footerPublico');
     }
     
     public function nuevoVoucher(){
-        $datos = array();
         $usr = $this->session->userdata('usuario');
         if ($usr == false){
             redirect(base_url().'index.php/login');
@@ -72,18 +89,18 @@ class GestionVoucher extends CI_Controller{
                 $banco = $this->input->post('banco');
                 $cliente=$this->usuarios->obtenerUsuarioPorDocumento($documento);
                 if (sizeof($cliente)==0){
-                    $datos['resultado']='errnocli';
+                    $this->datos['resultado']='errnocli';
                 }else {
                     $cliente = $cliente[0];
                     $this->voucher->ingresarVoucher($documento,$franquicia,$autorizacion,$verificacion,$monto,$tarjeta,$banco);
-                    $datos['resultado']='si';
+                    $this->datos['resultado']='si';
                     
                 }
             }
         }
         
-        $this->load->view('headerPublico');
-        $this->load->view('FormularioVoucher',$datos);
+        $this->load->view('headerPublico',$this->datos);
+        $this->load->view('FormularioVoucher',$this->datos);
         $this->load->view('footerPublico');
     }
     

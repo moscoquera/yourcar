@@ -1,17 +1,19 @@
 
-<div>
+<div class="row">
    
-<div id="menunavegacionpublico">
-    <ul>
+    <div id="menunavegacionpublico" class="span2">
+        <ul class="nav nav-list">
         <?php if (!isset($usuario)) { ?>
-            <br /> <br />  <li id="linkcuenta"><a href="<?= base_url() ?>index.php/login">INGRESAR</a></li><br /> 
+            <li id="linkcuenta">
+                <a href="<?= base_url() ?>index.php/login">INGRESAR</a>
+            </li><br /> 
           
            
            <br /> <br /> <li id="linkcrearcuenta"><a href="<?= base_url() ?>index.php/login/crearCuenta">SOLICITAR LA CUENTA </a></li><br /> 
         <?php } else { ?>
 
-            <br /> <br /> <li id="linkcuenta"><?= $usuario->nombres ?></li> <br />
-            <br /> <li id="linksalir"><a href="<?= base_url() ?>/index.php/login/salir">SALIR</a></li><br />
+           <br /> <br /> <li class="active" id="linkcuenta"><?= $usuario->nombres ?></li> <br />
+            <br /> <li id="linksalir"><a class="btn btn-warning" href="<?= base_url() ?>/index.php/login/salir">SALIR</a></li><br />
                 <?php
             }
             ?>        
@@ -20,7 +22,7 @@
 
 </div>
     
-    
+    <div class="span3">
 <table class="table table-bordered">
     <thead>
     <td>MARCA:</td> 
@@ -48,13 +50,14 @@ if (isset($vehiculos)) {
         <td><?= $vehiculo->tarifa ?></td>
         <td><?= $vehiculo->garantia ?></td>
         <td>
-            <a href="<?= base_url() ?>index.php/centro/cotizacion/<?= $vehiculo->placa?>">Cotizar</a>
-            <a href="<?= base_url() ?>index.php/GestorReservas/index/<?= $vehiculo->placa ?>">Reservar</a>
+            <a class="btn btn-primary" href="<?= base_url() ?>index.php/centro/cotizacion/<?= $vehiculo->placa?>">Cotizar</a>
+            <a class="btn btn-success" href="<?= base_url() ?>index.php/GestorReservas/index/<?= $vehiculo->placa ?>">Reservar</a>
         </td>
     <?php
     }
 }
 ?>
      
-</table>  
+</table>
+    </div>
 </div>

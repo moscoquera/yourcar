@@ -7,17 +7,34 @@
 
 class gestionVehiculos extends CI_Controller {
 
+    static $datos;
+    
     public function __construct() {
         parent::__construct();
 
         $this->load->model('Vehiculos');
         $this->load->model('mmantenimientos');
 
-        $this->output->enable_profiler(true);
+        $this->datos = array();
+        $this->datos['linksmenu'] = array();
+
+        $usr = $this->session->userdata('usuario');
+        $this->datos['usuario'] = $usr;
+        if ($usr->rol_id == 1) {
+            array_push($this->datos['linksmenu'], crearObjetoLink('PANEL DE USUARIOS', base_url() . 'index.php/gestionarUsuarios'));
+        } else if ($usr->rol_id == 2) {
+            array_push($this->datos['linksmenu'], crearObjetoLink('Mis Reservas', base_url() . 'index.php/GestorReservas'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Gestionar Vehiculos', base_url() . 'index.php/gestionVehiculos'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Modificar Información', base_url() . 'index.php/informacion/modificarInformacion'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Mantenimientos', base_url() . 'index.php/mantenimientos'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Registrar Voucher', base_url() . 'index.php/GestionVoucher/nuevoVoucher'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Consultar Voucher', base_url() . 'index.php/GestionVoucher'));
+        } else if ($usr->rol_id == 3) {
+            array_push($this->datos['linksmenu'], crearObjetoLink('Mis Reservas', base_url() . 'index.php/GestorReservas'));
+        }
     }
 
     public function index() {
-        $datos = array();
         $usr = $this->session->userdata('usuario');
         if ($usr == false || $usr->rol_id != '2') {
             redirect(base_url());
@@ -32,12 +49,12 @@ class gestionVehiculos extends CI_Controller {
                 if (sizeof($res)>0){
                     redirect('gestionVehiculos/ver/'.$placa);
                 }else{
-                    $datos['res']='no';
+                    $this->datos['res']='no';
                 }
             }
         }
-        $this->load->view('headerPublico');
-        $this->load->view('indexVehiculos',$datos);
+        $this->load->view('headerPublico',$this->datos);
+        $this->load->view('indexVehiculos',$this->datos);
         $this->load->view('footerPublico');
     }
 
@@ -47,8 +64,8 @@ class gestionVehiculos extends CI_Controller {
             redirect(base_url());
         }
 
-        $datos['frenos'] = $this->Vehiculos->frenos();
-        $datos['direccion'] = $this->Vehiculos->direccion();
+        $this->datos['frenos'] = $this->Vehiculos->frenos();
+        $this->datos['direccion'] = $this->Vehiculos->direccion();
 
         $this->form_validation->set_rules('placa', 'placa', 'required|max_length[7]|alpha_numeric');
         $this->form_validation->set_rules('marca', 'marca', 'required|trim|max_length[45]');
@@ -82,20 +99,19 @@ class gestionVehiculos extends CI_Controller {
             $garantia = $this->input->post('garantia');
             $res = $this->Vehiculos->insertarVehiculo($placa, $marca, $modelo, $color, $cilindraje, $frenos, $direccion, $descripcion, $pasajeros, $fechasoat, $fechaseg, $fechatec, $tarifa, $garantia);
             if ($res == true) {
-                $datos['estado'] = 'si';
+                $this->datos['estado'] = 'si';
             } else {
-                $datos['estado'] = 'no';
+                $this->datos['estado'] = 'no';
             }
         }
-        $this->load->view('headerPublico');
-        $this->load->view('FormularioCrearVehiculo', $datos);
+        $this->load->view('headerPublico',$this->datos);
+        $this->load->view('FormularioCrearVehiculo', $this->datos);
         $this->load->view('footerPublico');
     }
 
     public function modificarVehiculo() {
-        $datos = array();
-        $datos['frenos'] = $this->Vehiculos->frenos();
-        $datos['direccion'] = $this->Vehiculos->direccion();
+        $this->datos['frenos'] = $this->Vehiculos->frenos();
+        $this->datos['direccion'] = $this->Vehiculos->direccion();
 
         $usr = $this->session->userdata('usuario');
         if ($usr == false) {
@@ -109,9 +125,9 @@ class gestionVehiculos extends CI_Controller {
                 $buscar = $this->input->post('busqueda');
                 $buscar = $this->Vehiculos->buscarVehiculo($buscar);
                 if (sizeof($buscar) == 0) {
-                    $datos['resultado'] = 'nove';
+                    $this->datos['resultado'] = 'nove';
                 } else {
-                    $datos['vehiculo'] = $buscar[0];
+                    $this->datos['vehiculo'] = $buscar[0];
                 }
             }
         }
@@ -136,7 +152,7 @@ class gestionVehiculos extends CI_Controller {
             if ($this->form_validation->run() != false) {
                 $usr = $this->Vehiculos->buscarVehiculo($buscar);
                 if (sizeof($buscar) == 0) {
-                    $datos['resultado'] = 'nove';
+                    $this->datos['resultado'] = 'nove';
                 } else {
                     $placa = $this->input->post('placa');
                     $marca = $this->input->post('marca');
@@ -154,22 +170,21 @@ class gestionVehiculos extends CI_Controller {
                     $garantia = $this->input->post('garantia');
                     $res = $this->Vehiculos->actualizarVehiculo($placa, $marca, $modelo, $color, $cilindraje, $frenos, $direccion, $descripcion, $pasajeros, $fechasoat, $fechaseg, $fechatec, $tarifa, $garantia);
                     if ($res == true) {
-                        $datos['resultado'] = 'si';
+                        $this->datos['resultado'] = 'si';
                         $usr = $this->Vehiculos->buscarVehiculo($placa);
-                        $datos['vehiculo']=$usr[0];
+                        $this->datos['vehiculo']=$usr[0];
                     } else {
-                        $datos['resultado'] = 'no';
+                        $this->datos['resultado'] = 'no';
                     }
                 }
             }
         }
-        $this->load->view('headerPublico');
-        $this->load->view('FormulariomodificarVehiculo', $datos);
+        $this->load->view('headerPublico',$this->datos);
+        $this->load->view('FormulariomodificarVehiculo', $this->datos);
         $this->load->view('footerPublico');
     }
     
     function eliminarVehiculo(){
-        $datos = array();
         
         $usr = $this->session->userdata('usuario');
         if ($usr == false) {
@@ -183,9 +198,9 @@ class gestionVehiculos extends CI_Controller {
                 $buscar = $this->input->post('busqueda');
                 $buscar = $this->Vehiculos->buscarVehiculo($buscar);
                 if (sizeof($buscar) == 0) {
-                    $datos['resultado'] = 'nove';
+                    $this->datos['resultado'] = 'nove';
                 } else {
-                    $datos['vehiculo'] = $buscar[0];
+                    $this->datos['vehiculo'] = $buscar[0];
                 }
             }
         }
@@ -196,40 +211,38 @@ class gestionVehiculos extends CI_Controller {
             $placa = $this->input->post('placa');
             $buscar = $this->Vehiculos->buscarVehiculo($placa);
                 if (sizeof($buscar) == 0) {
-                    $datos['resultado'] = 'nove';
+                    $this->datos['resultado'] = 'nove';
                 } else {
                    $res= $this->Vehiculos->eliminarVehiculo($placa);
                    if ($res==true){
-                       $datos['resultado'] = 'si';
+                       $this->datos['resultado'] = 'si';
                    }else{
-                       $datos['resultado'] = 'no';
+                       $this->datos['resultado'] = 'no';
                    }
                 }
         }
         
-        $this->load->view('headerPublico');
-        $this->load->view('FormularioEliminarVehiculo', $datos);
+        $this->load->view('headerPublico',$this->datos);
+        $this->load->view('FormularioEliminarVehiculo', $this->datos);
         $this->load->view('footerPublico');
         
     }
     
     public function vehiculosDisponibles(){
-        $datos = array();
         
         $usr = $this->session->userdata('usuario');
         if ($usr == false) {
             redirect(base_url());
         }
         
-        $datos['disponibles']=$this->Vehiculos->vehiculosDisponibles();
+        $this->datos['disponibles']=$this->Vehiculos->vehiculosDisponibles();
         
-        $this->load->view('headerPublico');
-        $this->load->view('vehiculosDisponibles', $datos);
+        $this->load->view('headerPublico',$this->datos);
+        $this->load->view('vehiculosDisponibles', $this->datos);
         $this->load->view('footerPublico');
     }
     
     public function ver($placa=null){
-        $datos = array();
         
         $usr = $this->session->userdata('usuario');
         if ($usr == false) {
@@ -239,14 +252,14 @@ class gestionVehiculos extends CI_Controller {
         if ($placa != null){
             $buscar = $this->Vehiculos->buscarVehiculo($placa);
             if (sizeof($buscar)>0){
-                $datos['vehiculo']=$buscar[0];
-                $res = $this->Vehiculos->direccion($datos['vehiculo']->direccion);
+                $this->datos['vehiculo']=$buscar[0];
+                $res = $this->Vehiculos->direccion($this->datos['vehiculo']->direccion);
                 if (sizeof($res)>0){
-                    $datos['vehiculo']->direccion=$res[0]->nombre;
+                    $this->datos['vehiculo']->direccion=$res[0]->nombre;
                 }
-                $res = $this->Vehiculos->frenos($datos['vehiculo']->frenos);
+                $res = $this->Vehiculos->frenos($this->datos['vehiculo']->frenos);
                 if (sizeof($res)>0){
-                    $datos['vehiculo']->frenos=$res[0]->nombre;
+                    $this->datos['vehiculo']->frenos=$res[0]->nombre;
                 }
                $tip =  $this->mmantenimientos->tipos();
                $tipos = array();
@@ -256,54 +269,51 @@ class gestionVehiculos extends CI_Controller {
                 
              $tmp = $this->mmantenimientos->mantenimientosPorPlaca($placa);
              
-             $datos['mantenimientos'] = array();
+             $this->datos['mantenimientos'] = array();
              foreach ($tmp as $man){
                  $man->tipo= $tipos[$man->tipo];
-                 array_push($datos['mantenimientos'], $man);
+                 array_push($this->datos['mantenimientos'], $man);
              }
             }
         }
-        $this->load->view('headerPublico');
-        $this->load->view('informacionVehiculo', $datos);
+        $this->load->view('headerPublico',$this->datos);
+        $this->load->view('informacionVehiculo', $this->datos);
         $this->load->view('footerPublico');
     }
     
     public function vehiculosAlquilados(){
-        $datos = array();
         
         $usr = $this->session->userdata('usuario');
         if ($usr == false) {
             redirect(base_url());
         }
         
-        $datos['alquilados']=$this->Vehiculos->vehiculosAlquilados();
+        $this->datos['alquilados']=$this->Vehiculos->vehiculosAlquilados();
         
-        $this->load->view('headerPublico');
-        $this->load->view('vehiculosAlquilados', $datos);
+        $this->load->view('headerPublico',$this->datos);
+        $this->load->view('vehiculosAlquilados', $this->datos);
         $this->load->view('footerPublico');
         
     }
 
     public function vehiculosReservados(){
-        $datos = array();
         
         $usr = $this->session->userdata('usuario');
         if ($usr == false) {
             redirect(base_url());
         }
         
-        $datos['reservados']=$this->Vehiculos->vehiculosReservados();
+        $this->datos['reservados']=$this->Vehiculos->vehiculosReservados();
         
-        $this->load->view('headerPublico');
-        $this->load->view('vehiculosReservados', $datos);
+        $this->load->view('headerPublico',$this->datos);
+        $this->load->view('vehiculosReservados', $this->datos);
         $this->load->view('footerPublico');
         
     }
     
     public function vehiculosPorAtributos(){
-        $datos = array();
-        $datos['frenos'] = $this->Vehiculos->frenos();
-        $datos['direccion'] = $this->Vehiculos->direccion();
+        $this->datos['frenos'] = $this->Vehiculos->frenos();
+        $this->datos['direccion'] = $this->Vehiculos->direccion();
         
         $bus = $this->input->post('buscar');
         if ($bus != FALSE){
@@ -336,11 +346,11 @@ class gestionVehiculos extends CI_Controller {
                 $filtro['garantia']=$this->input->post('garantia');
             }
             $res = $this->Vehiculos->vehiculosPorAtributos($filtro);
-            $datos['vehiculos']=$res;
+            $this->datos['vehiculos']=$res;
         }
         
-        $this->load->view('headerPublico');
-        $this->load->view('BuscarVehiculos', $datos);
+        $this->load->view('headerPublico',$this->datos);
+        $this->load->view('BuscarVehiculos', $this->datos);
         $this->load->view('footerPublico');
     }
 }
