@@ -14,6 +14,35 @@ class GestionVoucher extends CI_Controller{
         $this->load->model('voucher');
     }
     
+    public function index(){
+        $datos = array();
+        $usr = $this->session->userdata('usuario');
+        if ($usr == false){
+            redirect(base_url().'index.php/login');
+        }
+        if ($usr->rol_id != 2){
+            redirect(base_url());
+        }
+        
+        $btn = $this->input->post('buscar');
+        if ($btn != false){
+            $docu = $this->input->post('documento');
+            $usuario = $this->usuarios->obtenerUsuarioPorDocumento($docu);
+            if (sizeof($usuario)==0){
+                $datos['resultado']='no';
+            }else{
+                $datos['resultado']='si';
+                $datos['usuario']=$usuario[0];
+                
+                $vouchers = $this->voucher->obtenerInfoDelCliente($docu);
+                $datos['vouchers']=$vouchers;
+            }
+        }
+        $this->load->view('headerPublico');
+        $this->load->view('BuscarClientedeAlquiler',$datos);
+        $this->load->view('footerPublico');
+    }
+    
     public function nuevoVoucher(){
         $datos = array();
         $usr = $this->session->userdata('usuario');

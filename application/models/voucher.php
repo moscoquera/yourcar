@@ -23,6 +23,10 @@ class voucher extends CI_Model {
         return true;
     }
 
+    public function obtenerInfoDelCliente($cedula){
+        return $this->db->where('doccliente',$cedula)->get('voucher')->result();
+    }
+    
 }
 
 ?>
