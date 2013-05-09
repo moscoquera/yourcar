@@ -15,6 +15,7 @@
 
 
 </div>
+<table class="table table-bordered">
 <table>
     <thead>
     <td>Marca:</td>
@@ -49,5 +50,6 @@ if (isset($vehiculos)) {
     }
 }
 ?>
+</table>      
 </table>
 </div>
