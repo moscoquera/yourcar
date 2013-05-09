@@ -4,14 +4,14 @@
 <div id="menunavegacionpublico">
     <ul>
         <?php if (!isset($usuario)) { ?>
-           <br /> <br />  <li id="linkcuenta"><a href="<?= base_url() ?>index.php/login">INGRESAR</a></li><br /> 
+            <br /> <br />  <li id="linkcuenta"><a href="<?= base_url() ?>index.php/login">INGRESAR</a></li><br /> 
           
            
-           <br /> <li id="linkcrearcuenta"><a href="<?= base_url() ?>index.php/login/crearCuenta">SOLICITAR LA CUENTA </a></li><br /> 
+           <br /> <br /> <li id="linkcrearcuenta"><a href="<?= base_url() ?>index.php/login/crearCuenta">SOLICITAR LA CUENTA </a></li><br /> 
         <?php } else { ?>
 
-            <br /> <li id="linkcuenta"><?= $usuario->nombres ?></li> <br />
-            <li id="linksalir"><a href="<?= base_url() ?>/index.php/login/salir">SALIR</a></li><br />
+            <br /> <br /> <li id="linkcuenta"><?= $usuario->nombres ?></li> <br />
+            <br /> <li id="linksalir"><a href="<?= base_url() ?>/index.php/login/salir">SALIR</a></li><br />
                 <?php
             }
             ?>        

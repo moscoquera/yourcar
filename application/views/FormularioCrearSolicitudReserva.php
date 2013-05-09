@@ -12,35 +12,35 @@ if (isset($resultado)) {
 ?>
 <form method="post">
     <input type="hidden" name="reserva" value="r">
-    <label>Nombre Completo:</label>
+    <br/> <br/> <label>Nombre Completo:</label>
     <input type="text" value="<?= $usuario->nombres ?>" disabled="true">
-    <label>Email:</label>
+    <br/><br/><label>Email:</label>
     <input type="text" value="<?= $usuario->email ?>" disabled="true">
-    <label>tipo de Documento:</label>
+    <br/><br/><label>Tipo de Documento:</label>
     <input type="text" value="<?= $usuario->tipo_doc ?>" disabled="true">
-    <label>Numero de Documento:</label>
+    <br/><br/><label>Numero de Documento:</label>
     <input type="text" value="<?= $usuario->ndocumento ?>" disabled="true">
-    <label>Direccion:</label>
+    <br/><br/><label>Direccion:</label>
     <input type="text" value="<?= $usuario->direccion ?>" disabled="true">
     <?php if (isset($vehiculo)){ ?>
     <h2>Vehiculo</h2>
     <input type="hidden" value="<?= $vehiculo->placa ?>" name="placa"> 
-    <label>Marca:</label>
+    <br/><br/><label>Marca:</label>
     <input type="text" value="<?= $vehiculo->marca ?>" disabled="true">
-    <label>Modelo:</label>
+    <br/><br/><label>Modelo:</label>
     <input type="text" value="<?= $vehiculo->modelo ?>" disabled="true">
-    <label>Color:</label>
+    <br/><br/><label>Color:</label>
     <input type="text" value="<?= $vehiculo->color ?>" disabled="true">
-    <label>Cilindraje:</label>
+    <br/><br/><label>Cilindraje:</label>
     <input type="text" value="<?= $vehiculo->cilindraje ?>" disabled="true">
-    <label>Frenos:</label>
+    <br/><br/><label>Frenos:</label>
     <input type="text" value="<?= $vehiculo->frenos ?>" disabled="true">
-    <label>Direccion:</label>
+    <br/><br/><label>Direccion:</label>
     <input type="text" value="<?= $vehiculo->direccion ?>" disabled="true">
-    <label>Pasajeros:</label>
+    <br/><br/><label>Pasajeros:</label>
     <input type="text" value="<?= $vehiculo->npasajeros ?>" disabled="true">
     <?php }else{ ?>
-    <label>Vehiculo:</label>
+    <br/><br/><label>Vehiculo:</label>
     <select name="placa"> <?php
        if (isset($vehiculos)){
            foreach ($vehiculos as $vehiculo){ ?>
@@ -50,7 +50,7 @@ if (isset($resultado)) {
     ?> </select>
     <?php } ?>
     
-    <label>Fecha y Hora de inicio:</label>
+    <br/><br/><label>Fecha y Hora de inicio:</label>
     <div id="horainicio" class="input-append date">
         <input data-format="dd/MM/yyyy hh:mm" type="text" name="horainicio" value="<?= set_value('horainicio', (isset($horainicio)) ? $horainicio : '') ?>">
         <span class="add-on">
@@ -58,7 +58,7 @@ if (isset($resultado)) {
             </i>
         </span>
     </div>
-    <label>Fecha y Hora de Fin: </label>
+    <br/><br/><label>Fecha y Hora de Fin: </label>
     <div id="horafin" class="input-append date">
         <input data-format="dd/MM/yyyy hh:mm" type="text" name="horafin" value="<?= set_value('horafin', (isset($horafin)) ? $horafin : '') ?>">
         <span class="add-on">
@@ -66,7 +66,7 @@ if (isset($resultado)) {
             </i>
         </span>
     </div>
-    <label>Ciudad o Lugar de la Entrega:</label>
+    <br/><br/><label>Ciudad o Lugar de la Entrega:</label>
     <select name="lugarentrega">
         <?php
         if (isset($lugares)) {
@@ -87,7 +87,7 @@ if (isset($resultado)) {
                 ?>
     </select>
 
-    <label>Ciudad o Lugar de la Recepción:</label>
+    <br/><br/><label>Ciudad o Lugar de la Recepción:</label>
     <select name="lugarrecepcion">
         <?php
         if (isset($lugares)) {
@@ -110,10 +110,10 @@ if (isset($resultado)) {
     </select>
 
 <?php if (isset($costo)) { ?>
-        <label><b>Costo: <?= $costo ?></b></label>
+        <br/><br/><label><b>Costo: <?= $costo ?></b></label>
 <?php }
 ?>
-    <input type="submit" value="Reservar" name="btnreservar">
+    <br/><br/><input type="submit" value="Reservar" name="btnreservar">
 </form>
 
 <script type="text/javascript">
