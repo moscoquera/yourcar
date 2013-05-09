@@ -13,17 +13,17 @@ if (isset($estado)) {
 }
 ?>
 <form action="<?= base_url() ?>index.php/gestionVehiculos/crearVehiculo" method="post">
-    <label>Placa:</label>
+    <br /><br /> <label>Placa:</label>
     <input type="text" name="placa" maxlength="7">
-    <label>Marca:</label>
+    <br /><br /><label>Marca:</label>
     <input type="text" name="marca">
-    <label>Modelo:</label>
+    <br /><br /><label>Modelo:</label>
     <input type="text" name="modelo">
-    <label> Color</label>
+    <br /><br /><label> Color</label>
     <input type="text" name="color">
-    <label>Cilindraje (c.c.):</label>
+    <br /><br /><label>Cilindraje (c.c.):</label>
     <input type="number" name="cilindraje">
-    <label>Frenos:</label>
+    <br /><br /><label>Frenos:</label>
     <select name="frenos">
         <?php
         if (isset($frenos)) {
@@ -35,7 +35,7 @@ if (isset($estado)) {
         }
         ?>
     </select>
-    <label>Direccion:</label>
+    <br /><br /><label>Direccion:</label>
     <select name="direccion">
         <?php
         if (isset($direccion)) {
@@ -47,19 +47,19 @@ if (isset($estado)) {
         }
         ?>
     </select>
-    <label>Descripcion:</label>
+    <br /><br /><label>Descripcion:</label>
     <textarea name="descripcion"></textarea>
-    <label>Numero de Pasajeros:</label>
+    <br /><br /><label>Numero de Pasajeros:</label>
     <input type="number" name="pasajeros" min="0">
-    <label>Fecha del Soat:</label>
+    <br /><br /><label>Fecha del Soat:</label>
     <input type="date" name="fechasoat">
-    <label>Fecha del Seguro:</label>
+    <br /><br /><label>Fecha del Seguro:</label>
     <input type="date" name="fechaseg">
-    <label>Fecha revision tecnicomecanica: </label>
+    <br /><br /><label>Fecha revision tecnicomecanica: </label>
     <input type="date" name="fechatec">
-    <label>Tarifa:</label>
+    <br /><br /><label>Tarifa:</label>
     <input type="number" name="tarifa" min="0">
-    <label>Garantia:</label>
-    <input type="number" name="garantia" min="0">
-    <input type="submit" value="Agregar">
+    <br /><br /><label>Garantia(Meses):</label> 
+    <input type="number" name="garantia" min="0">  <br /> <br />
+    <input type="submit" value="Agregar"> 
 </form>
