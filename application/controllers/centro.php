@@ -22,10 +22,10 @@ class centro extends CI_Controller {
             $usr = $this->session->userdata('usuario');
             $datos['usuario'] = $usr;
             if ($usr->rol_id == 1) {
-                array_push($datos['linksmenu'], crearObjetoLink('panel de usuarios', base_url() . 'index.php/gestionarUsuarios'));
+                array_push($datos['linksmenu'], crearObjetoLink('PANEL DE USUARIOS', base_url() . 'index.php/gestionarUsuarios'));
             } else if ($usr->rol_id == 2) {
                 array_push($datos['linksmenu'], crearObjetoLink('Mis Reservas', base_url() . 'index.php/GestorReservas'));
-                array_push($datos['linksmenu'], crearObjetoLink('gestionar Vehiculos', base_url() . 'index.php/gestionVehiculos'));
+                array_push($datos['linksmenu'], crearObjetoLink('Gestionar Vehiculos', base_url() . 'index.php/gestionVehiculos'));
                 array_push($datos['linksmenu'], crearObjetoLink('Modificar Información', base_url() . 'index.php/informacion/modificarInformacion'));
                 array_push($datos['linksmenu'], crearObjetoLink('Mantenimientos', base_url() . 'index.php/mantenimientos'));
                 

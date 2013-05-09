@@ -1,6 +1,6 @@
 <div>
     <ul>
-        <br><br/><li><a href="<?= base_url() ?>index.php/gestionarUsuarios/crearUsuario">crear usuario</a></li>
+        <br><br/><li><a href="<?= base_url() ?>index.php/gestionarUsuarios/crearUsuario">Crear Usuario</a></li>
     </ul>
 </div>
 <div>
@@ -8,13 +8,13 @@
     if (isset($usuarios)) {
         ?>
         <br><br/>
-        <table border='1'>
+       <table class="table table-bordered">
             <tr>
                 <th>NICK</th>
                 <th>NOMBRE</th>
                 <th>EMAIL</th>
-                <th>rol</th>
-                <th>Opciones</th>
+                <th>ROL</th>
+                <th>OPCIONES</th>
             </tr>
 
             <?php
