@@ -13,10 +13,10 @@ if (isset($resultado)) {
 }
 ?>
         <form method="post" class="form-horizontal" onsubmit="return alenviar();">
-    <label>Nombre Completo:</label>
+       <br /> <br /> <label>Nombre Completo: </label> <br />
     <input type="text" name="nombrecompleto" id="nombrecompleto">
     
-    <label>soy un(a): </label>
+     <br />  <br /> <label>Soy Un(a): </label> <br />
     <select name="tipo" id="tipo" onchange="oncambio()">
         <?php
         if (isset($tipousuarios)) {
@@ -28,7 +28,7 @@ if (isset($resultado)) {
         }
         ?>
     </select>
-    <label>Tipo de Documento:</label>
+   <br /> <br /> <label>Tipo de Documento:</label> <br />
     <select name="tipodoc">
         <?php
         if (isset($documentos)) {
@@ -40,17 +40,17 @@ if (isset($resultado)) {
         }
         ?>
     </select>
-    <label >documento N°:</label>
+   <br /> <br /> <label > N° Documento:</label> <br />
     <input type="text" name="numdoc">
-    <label class="humano">fecha de Nacimiento:</label>
+    <br /> <br /> <label class="humano">Fecha De Nacimiento:</label> <br />
     <input class="humano" type="date" name="fechanaci" id="fechanaci">
-    <label>pais:</label>
+    <br /> <br /><label>Pais:</label>  <br />
     <input type="text" name="pais">
-    <label>ciudad:</label>
+    <br /> <br /> <label>Ciudad:</label> <br />
     <input type="text" name="ciudad">
-    <label class="humano">tipo sanguineo:</label>
+    <br /> <br /> <label class="humano">Tipo Sanguineo:</label> <br />
     <input class="humano" name="tiposangre" type="text" maxlength="3">
-    <label class="humano">genero:</label>
+    <br /> <br /> <label class="humano">Genero:</label> <br />
     <select class="humano" name="genero">
         <?php
         if (isset($generos)) {
@@ -62,17 +62,17 @@ if (isset($resultado)) {
         }
         ?>
     </select>
-    <label class="hotel">Representate:</label>
+    <br /> <br /> <label class="hotel">Representate:</label> <br />
     <input class="hotel" type="text" name="nombrecontacto">
-    <label class="hotel">Direccion Representante:</label>
+    <br /> <br /> <label class="hotel">Direccion Representante:</label> <br />
     <input class="hotel"  type="text" name="direccioncontacto">
-    <label>Telefono:</label>
+    <br /> <br /> <label>Telefono:</label> <br />
     <input type="tel" name="telefono">
-    <label>Nick:</label>
+    <br /> <br /> <label>Nick:</label> <br />
     <input type="text" name="nick" id="nick">
-    <label>Email:</label>
-    <input type="email" name="email" id="email">
-    <label>rol:</label>
+    <br /> <br /> <label>Email:</label> <br />
+    <input type="email" name="email" id="email"> <br />
+   <br /> <br />  <label>Rol:</label> <br />
     <select name="rol" id="rol">
         <?php
         if (isset($roles)) {
@@ -84,13 +84,13 @@ if (isset($resultado)) {
         }
         ?>
     </select>
-    <label>Contraseña</label>
+    <br /> <br /> <label>Contraseña</label> <br />
     <input type="password" name="contra" id="contra">
     <div>
-        <label> repetir Contraseña</label>
+        <br /> <br /> <label> Repetir Contraseña</label> <br />
         <input type="password" name="repcontra" id="repcontra">
     </div>
-    <input type="submit" value="Agregar" class="btn btn-primary"> 
+    <br /> <input type="submit" value="Agregar" class="btn btn-primary"> 
 </form>
 
 <script type="text/javascript">
