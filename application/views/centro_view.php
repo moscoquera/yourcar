@@ -1,4 +1,5 @@
 <div>
+<div class="row"> 
 <div id="menunavegacionpublico">
     <ul>
         <?php if (!isset($usuario)) { ?>
@@ -14,6 +15,7 @@
     </ul>  
 
 
+</div>
 </div>
 <table class="table table-bordered">
 <table>
