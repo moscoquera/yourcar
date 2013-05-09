@@ -1,5 +1,6 @@
+
 <div>
-<div class="row"> 
+   
 <div id="menunavegacionpublico">
     <ul>
         <?php if (!isset($usuario)) { ?>
@@ -16,11 +17,11 @@
 
 
 </div>
-</div>
+    
+    
 <table class="table table-bordered">
-<table>
     <thead>
-    <td>Marca:</td>
+    <td>Marca:</td> 
     <td>Modelo:</td>
     <td>Color:</td>
     <td>Cilindraje:</td>
@@ -29,7 +30,7 @@
     <td>Pasajeros:</td>
     <td>Tarifa:</td>
     <td>Valor del Voucher: </td>
-    <td>opcion</td>
+    <td>Opcion</td>
 </thead>
 <?php
 if (isset($vehiculos)) {
@@ -52,6 +53,6 @@ if (isset($vehiculos)) {
     }
 }
 ?>
-</table>      
-</table>
+     
+</table>  
 </div>
