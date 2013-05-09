@@ -50,16 +50,16 @@ if (isset($resultado)) {
     }
 }
 ?>
-<table>
+<table class="table table-bordered">
     <thead>
-    <td>id</td>
-    <td>placa</td>
-    <td>precio</td>
-    <td>fecha inicio</td>
-    <td>fecha fin</td>
-    <td>lugar inicio</td>
-    <td>lugar fin</td>
-    <td>pagada</td>
+    <td>Id</td>
+    <td>Placa</td>
+    <td>Precio</td>
+    <td>Fecha inicio</td>
+    <td>Fecha fin</td>
+    <td>Lugar inicio</td>
+    <td>Lugar fin</td>
+    <td>Pagada</td>
 </thead>
 <tbody> 
     <?php

@@ -1,6 +1,6 @@
 <?php if (isset($vehiculos)) { ?>
 
-    <table style="border: 2px black solid;">
+    <table class="table table-bordered">
         <thead>
         <td>Placa</td>
         <td>Marca</td>
@@ -25,15 +25,15 @@
     ?>
 
     <form method="post">
-        <label>Marca:</label>
+        <br/><br/><label>Marca:</label>
         <input type="text" name="marca">
-        <label>Modelo:</label>
+        <br/><br/><label>Modelo:</label>
         <input type="text" name="modelo">
-        <label> Color</label>
+        <br/><br/><label> Color</label>
         <input type="text" name="color">
-        <label>Cilindraje (c.c.):</label>
+        <br/><br/><label>Cilindraje (c.c.):</label>
         <input type="number" name="cilindraje">
-        <label>Frenos:</label>
+        <br/><br/><label>Frenos:</label>
         <select name="frenos">
             <?php
             if (isset($frenos)) {
@@ -45,7 +45,7 @@
             }
             ?>
         </select>
-        <label>Direccion:</label>
+        <br/><br/><label>Direccion:<br/><br/>
         <select name="direccion">
             <?php
             if (isset($direccion)) {
@@ -57,11 +57,11 @@
             }
             ?>
         </select>
-        <label>Numero de Pasajeros:</label>
+        <br/><br/><label>Numero de Pasajeros:</label>
         <input type="number" name="pasajeros" min="0">
-        <label>Tarifa:</label>
+        <br/><br/><label>Tarifa:</label>
         <input type="number" name="tarifa" min="0">
-        <label>Garantia:</label>
+        <br/><br/><label>Garantia:</label>
         <input type="number" name="garantia" min="0">
         <input type="submit" value="Buscar" name="buscar">
     </form>

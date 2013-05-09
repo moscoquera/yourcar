@@ -9,13 +9,13 @@ if (isset($resultado)) {
 }
 ?>
 <form method="post">
-    <label>Politicas de la Empresa:</label>
+    <br/> <br/><label>Politicas de la Empresa:</label>
     <textarea name="polempresa"><?= set_value('polempresa',$polempresa) ?></textarea>
-    <label>Mision:</label>
+    <br/><br/><label>Mision:</label>
     <textarea name="mision"><?= set_value('mision',$mision) ?></textarea>
-    <label>Vision:</label>
+    <br/><br/><label>Vision:</label>
     <textarea name="vision"><?= set_value('vision',$vision) ?></textarea>
-    <label>Objetivos:</label>
-    <textarea name="objetivos"><?= set_value('objetivos',$objetivos) ?></textarea>
+    <br/><br/><label>Objetivos:</label>
+    <textarea name="objetivos"><?= set_value('objetivos',$objetivos) ?></textarea> <br/><br/>
     <input type="submit" name="actualizar" value="Actualizar">
 </form>
