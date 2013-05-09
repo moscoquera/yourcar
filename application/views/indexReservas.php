@@ -1,5 +1,5 @@
 <ul>
-    <li><a href="<?= base_url() ?>index.php/GestorReservas/reservar">Reservar</a></li>
+   <br /> <br /><li><a href="<?= base_url() ?>index.php/GestorReservas/reservar">RESERVAR</a></li><br />
 </ul>
 <?php
 echo validation_errors();

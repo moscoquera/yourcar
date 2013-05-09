@@ -7,11 +7,11 @@
            <br /> <br />  <li id="linkcuenta"><a href="<?= base_url() ?>index.php/login">INGRESAR</a></li><br /> 
           
            
-            <li id="linkcrearcuenta"><a href="<?= base_url() ?>index.php/login/crearCuenta">SOLICITAR LA CUENTA </a></li><br /> 
+           <br /> <li id="linkcrearcuenta"><a href="<?= base_url() ?>index.php/login/crearCuenta">SOLICITAR LA CUENTA </a></li><br /> 
         <?php } else { ?>
 
-            <li id="linkcuenta"><?= $usuario->nombres ?></li>
-            <li id="linksalir"><a href="<?= base_url() ?>/index.php/login/salir">Salir</a></li>
+            <br /> <li id="linkcuenta"><?= $usuario->nombres ?></li> <br />
+            <li id="linksalir"><a href="<?= base_url() ?>/index.php/login/salir">SALIR</a></li><br />
                 <?php
             }
             ?>        
