@@ -4,8 +4,10 @@
 <div id="menunavegacionpublico">
     <ul>
         <?php if (!isset($usuario)) { ?>
-            <li id="linkcuenta"><a href="<?= base_url() ?>index.php/login">Ingresar</a></li>
-            <li id="linkcrearcuenta"><a href="<?= base_url() ?>index.php/login/crearCuenta">solicitar la cuenta</a></li>
+           <br /> <br />  <li id="linkcuenta"><a href="<?= base_url() ?>index.php/login">INGRESAR</a></li><br /> 
+          
+           
+            <li id="linkcrearcuenta"><a href="<?= base_url() ?>index.php/login/crearCuenta">SOLICITAR LA CUENTA </a></li><br /> 
         <?php } else { ?>
 
             <li id="linkcuenta"><?= $usuario->nombres ?></li>
@@ -21,16 +23,16 @@
     
 <table class="table table-bordered">
     <thead>
-    <td>Marca:</td> 
-    <td>Modelo:</td>
-    <td>Color:</td>
-    <td>Cilindraje:</td>
-    <td>Frenos:</td>
-    <td>Direccion:</td>
-    <td>Pasajeros:</td>
-    <td>Tarifa:</td>
-    <td>Valor del Voucher: </td>
-    <td>Opcion</td>
+    <td>MARCA:</td> 
+    <td>MODELO:</td>
+    <td>COLOR:</td>
+    <td>CILINDRAJE:</td>
+    <td>FRENOS:</td>
+    <td>DIRECCION:</td>
+    <td>PASAJEROS:</td>
+    <td>TARIFA:</td>
+    <td>VALOR DEL VOUCHER: </td>
+    <td>OPCION</td>
 </thead>
 <?php
 if (isset($vehiculos)) {
