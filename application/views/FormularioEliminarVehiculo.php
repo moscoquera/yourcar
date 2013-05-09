@@ -26,9 +26,9 @@ if (isset($vehiculo)) {
 <?php } else {
     ?>
     <form method="post">
-        <label>Placa</label>
-        <input type="search" name="busqueda">
-        <input type="submit" value="buscar" name="buscar">
+        <br /><br /><br /><br /><label>Placa</label>
+        <input type="search" name="busqueda"><br /><br />
+        <input type="submit" value="Buscar" name="Buscar">
     </form>
     <?php
 }

@@ -7,7 +7,8 @@
 if (isset($reservados)) {
     ?>
 
-    <table style="border: 2px black solid;">
+   
+       <br/><br/><br/><br/> <table class="table table-bordered">
         <thead>
         <td>Placa</td>
         <td>Marca</td>
@@ -26,7 +27,6 @@ if (isset($reservados)) {
         <?php }
         ?> </tbody>
     </table>
-
 
     <?php
 } else {
