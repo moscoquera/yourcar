@@ -5,9 +5,9 @@ $att = array('id' => 'frmingresar');
 echo form_open('login/hacerlogin', $att)
 ?>
 
-<br /> <br /> <label> NICK:</label> <br /> <br /> 
+<br /> <br /> <br /> <label> NICK:</label> 
 <input type="text" id="nick" name="nick" >
-<br /> <br /><label>CONTRASEÑA</label> <br /> <br /> 
+<br /> <br /><label>CONTRASEÑA</label>  
 <input type="password" name="password" id="password" >
 <input type="submit" value="INGRESAR">
 

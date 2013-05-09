@@ -8,12 +8,12 @@ if (isset($resultado)) {
     }
 }
 ?>
-<form method="post">
-    <?php if (isset($vehiculo)) { ?>
-        <input type="hidden" value="<?= $vehiculo->placa ?>" name="placa"> 
+<form method="post"> <br /><br />
+    <?php if (isset($vehiculo)) { ?> <br /><br /><br />
+    <input type="hidden" value="<?= $vehiculo->placa ?>" name="placa"> 
 <?php }
 ?>
-    <label>Fecha y Hora de inicio:</label>
+   <label>Fecha y Hora de inicio:</label>
     <div id="horainicio" class="input-append date">
         <input data-format="dd/MM/yyyy hh:mm" type="text" name="horainicio" value="<?= set_value('horainicio') ?>">
         <span class="add-on">
