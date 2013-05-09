@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
+        
         <title>YourCar :D</title>
         <meta charset="UTF-8">
         <link type="text/css" rel="stylesheet" href="<?= base_url(); ?>media/css/bootstrap.css" />
@@ -11,7 +12,7 @@
         <script type="text/javascript" src="<?= base_url(); ?>media/js/bootstrap.js" ></script>
         <script type="text/javascript" src="<?= base_url(); ?>media/js/bootstrap-datetimepicker.min.js" ></script>
         <script type="text/javascript" src="<?= base_url(); ?>media/js/bootstrap-datepicker.js" ></script>
-    
+       
         </head>
     <body>
         

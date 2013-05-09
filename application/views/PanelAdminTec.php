@@ -1,19 +1,20 @@
 <div>
     <ul>
-        <li><a href="<?= base_url() ?>index.php/gestionarUsuarios/crearUsuario">crear usuario</a></li>
+        <br><br/><li><a href="<?= base_url() ?>index.php/gestionarUsuarios/crearUsuario">crear usuario</a></li>
     </ul>
 </div>
 <div>
     <?php
     if (isset($usuarios)) {
         ?>
-        <table border='2'>
+        <br><br/>
+        <table border='1'>
             <tr>
                 <th>NICK</th>
                 <th>NOMBRE</th>
                 <th>EMAIL</th>
                 <th>rol</th>
-                <th>Acciones</th>
+                <th>Opciones</th>
             </tr>
 
             <?php

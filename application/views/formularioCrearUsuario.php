@@ -12,7 +12,9 @@ if (isset($resultado)) {
     }
 }
 ?>
+        
         <form method="post" class="form-horizontal" onsubmit="return alenviar();">
+            <FRAMESET COLS="50%, 50%">
        <br /> <br /> <label>Nombre Completo: </label> <br />
     <input type="text" name="nombrecompleto" id="nombrecompleto">
     
@@ -91,6 +93,8 @@ if (isset($resultado)) {
         <input type="password" name="repcontra" id="repcontra">
     </div>
     <br /> <input type="submit" value="Agregar" class="btn btn-primary"> 
+               </FRAMESET>
+
 </form>
 
 <script type="text/javascript">

@@ -1,4 +1,4 @@
-<table>
+<br><table class="table table-bordered">
     <thead>
     <td>Placa</td>
     <td>Ultima Revision</td>
@@ -17,4 +17,4 @@ if (isset($proximos)){
 }
 ?>
     <tbody>
-</table>
+</table><br/>

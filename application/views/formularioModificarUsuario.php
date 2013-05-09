@@ -16,7 +16,7 @@ if (isset($resultado)) {
 if (isset($usuario)) {
     ?>
     <form action="<?= base_url() ?>index.php/gestionarUsuarios/modificarUsuario/<?= $usuario->nick ?>" method="post">
-        <label>Nick:</label>
+       <br><br/> <label>Nick:</label>
         <input type="text" name="nick" id="nick" value="<?= $usuario->nick?>" readonly="true">
         
         

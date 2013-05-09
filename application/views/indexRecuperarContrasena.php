@@ -12,10 +12,15 @@ if (isset($resultado)) {
 }
 ?>
 <p>
+    <br> </br>
     por favor elija una opcion para recuperar su contraseña:
 <form method="post">
-    Diligenciando un formulario<input type="radio" value="formulario" name="opcion">
-    <br/>
+    <br> <br/>
+    <tr>
+   <td> Diligenciando un formulario<td/> 
+       <td><input type="radio" value="formulario" name="opcion"><td/>
+    <tr/>
+   <br> <br/>
     <input type="submit" value="continuar">
 </form>
 </p>

@@ -11,8 +11,11 @@ if (isset($resultado)) {
     }
 }
 ?>
+ 
 <form method="post">
-    <label>Vehiculo:</label>
+    <br> </br>
+    <label>Vehículo:</label>
+   
     <select name="placa">
         <?php
         if (isset($vehiculos)) {
@@ -24,13 +27,17 @@ if (isset($resultado)) {
         }
         ?>
     </select>
+      <br> </br>
     <label>Fecha de Inicio:</label>
     <input type="text" name="fechai" id="fechai" <?= set_value('fechai') ?>>
+    <br> </br>
     <label>Fecha de Fin:</label>
-    <input type="text" name="fechaf" id="fechaf" <?= set_value('fechaf') ?>>
+     <input type="text" name="fechaf" id="fechaf" <?= set_value('fechaf') ?>>
+      <br> </br>
     <label>Descripcíon:</label>
     <textarea name="descripcion"><?= set_value('descripcion') ?>
     </textarea>
+      <br> </br>
     <label>Tipo</label>
     <select name="tipo">
         <?php
@@ -43,8 +50,10 @@ if (isset($resultado)) {
         }
         ?>
     </select>
+     <br> </br>
     <label>Valor:</label>
     <input type="number" name="valor" min="0" <?= set_value('valor') ?>>
+     <br> </br>
     <input type="submit" value="Agregar" name="btnagregar">
 </form>
 <script>

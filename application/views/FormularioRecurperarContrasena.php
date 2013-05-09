@@ -3,6 +3,7 @@
 ?>
 
 <form method="post">
+     <br> </br>
     <label>Nick:</label>
     <input type="text" name="nick">
     <label>Nombre Completo:</label>
