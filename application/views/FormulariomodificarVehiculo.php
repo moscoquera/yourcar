@@ -18,17 +18,17 @@ if (isset($resultado)) {
 if (isset($vehiculo)) {
     ?>
     <form method="post">
-        <label>Placa:</label>
+        <br /><br /> <label>Placa:</label>
         <input type="text" name="placa" maxlength="7" value="<?= $vehiculo->placa ?>" readonly="true">
-        <label>Marca:</label>
+        <br /><br /><label>Marca:</label>
         <input type="text" name="marca" value="<?= $vehiculo->marca ?>">
-        <label>Modelo:</label>
+        <br /><br /><label>Modelo:</label>
         <input type="text" name="modelo" value="<?= $vehiculo->modelo ?>">
-        <label> Color</label>
+        <br /><br /><label> Color</label>
         <input type="text" name="color" value="<?= $vehiculo->color ?>">
-        <label>Cilindraje (c.c.):</label>
+        <br /><br /><label>Cilindraje (c.c.):</label>
         <input type="number" name="cilindraje" value="<?= $vehiculo->cilindraje ?>">
-        <label>Frenos:</label>
+        <br /><br /><label>Frenos:</label>
         <select name="frenos">
             <?php
             if (isset($frenos)) {
@@ -42,7 +42,7 @@ if (isset($vehiculo)) {
             }
             ?>
         </select>
-        <label>Direccion:</label>
+        <br /><br /><label>Direccion:</label>
         <select name="direccion">
             <?php
             if (isset($direccion)) {
@@ -56,27 +56,27 @@ if (isset($vehiculo)) {
     }
     ?>
         </select>
-        <label>Descripcion:</label>
+        <br /><br /> <label>Descripcion:</label> <br />
         <textarea name="descripcion"><?= $vehiculo->descripcion ?></textarea>
-        <label>Numero de Pasajeros:</label>
+        <br /><br /><label>Numero de Pasajeros:</label>
         <input type="number" name="pasajeros" min="0" value="<?= $vehiculo->npasajeros ?>">
-        <label>Fecha del Soat:</label>
+        <br /><br /><label>Fecha del Soat:</label>
         <input type="date" name="fechasoat" value="<?= $vehiculo->fechasoat ?>">
-        <label>Fecha del Seguro:</label>
+        <br /><br /><label>Fecha del Seguro:</label>
         <input type="date" name="fechaseg" value="<?= $vehiculo->fechaseguro ?>">
-        <label>Fecha revision tecnicomecanica: </label>
+        <br /><br /><label>Fecha revision tecnicomecanica: </label>
         <input type="date" name="fechatec" value="<?= $vehiculo->fecharevision ?>">
-        <label>Tarifa:</label>
+        <br /><br /><label>Tarifa:</label>
         <input type="number" name="tarifa" min="0" value="<?= $vehiculo->tarifa ?>">
-        <label>Garantia:</label>
+        <br /><br /><label>Garantia:</label>
         <input type="number" name="garantia" min="0" value="<?= $vehiculo->garantia ?>">
         <input type="submit" value="Modificar" name="modificar">
     </form>
 <?php } else {
     ?>
     <form method="post" action="<?= base_url() ?>index.php/gestionVehiculos/modificarVehiculo">
-        <label>Placa</label>
-        <input type="search" name="busqueda">
+        <br /><br /><br /><label>Placa</label>
+        <input type="search" name="busqueda"><br /><br />
         <input type="submit" value="buscar" name="buscar">
     </form>
     <?php
