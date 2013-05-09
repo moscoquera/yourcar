@@ -120,5 +120,3 @@ class centro extends CI_Controller {
 
 }
 ?>
-
-
