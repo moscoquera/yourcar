@@ -5,12 +5,12 @@ $att = array('id' => 'frmingresar');
 echo form_open('login/hacerlogin', $att)
 ?>
 
-<label> nick:</label>
+<br /> <br /> <label> NICK:</label> <br /> <br /> 
 <input type="text" id="nick" name="nick" >
-<label>contraseña</label>
+<br /> <br /><label>CONTRASEÑA</label> <br /> <br /> 
 <input type="password" name="password" id="password" >
-<input type="submit" value="ingresar">
+<input type="submit" value="INGRESAR">
 
 
 <?= form_close(); ?>
-<a href="<?= base_url(); ?>index.php/login/recuperarContrasena">Recuperar Contraseña</a>
+<a href="<?= base_url(); ?>index.php/login/recuperarContrasena">RECUPERAR CONTRASEÑA</a>
