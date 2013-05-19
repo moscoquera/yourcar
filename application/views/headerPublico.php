@@ -15,9 +15,13 @@
        
         </head>
     <body>
-        
+        <div class="span2">
+            <img src="<?= base_url()?>images/logo.png">
+        </div>
+        </div>
         <div class="container row">
-        <div class="navbar">
+            <div class="span12"> 
+            <div class="navbar" style="margin-top: 32px !important">
             <div class="navbar-inner">
                 <a class="brand" href="<?= base_url(); ?>">YOURCAR</a>
                 <ul class="nav">
@@ -33,3 +37,4 @@
                 </ul>
             </div>
         </di>
+            </div>
