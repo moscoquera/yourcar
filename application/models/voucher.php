@@ -11,13 +11,14 @@ class voucher extends CI_Model {
         parent::__construct();
     }
 
-    public function ingresarVoucher($documento, $franquicia, $autorizacion, $verificacion, $monto, $tarjeta, $banco) {
+    public function ingresarVoucher($documento,$nombre, $franquicia, $autorizacion, $verificacion, $monto, $tarjeta, $banco) {
         $datos = array('doccliente' => $documento,
             'franquicia' => $franquicia,
-            'codverificacion' => $verificacion,
+            'verificacion' => $verificacion,
             'numvoucher' => $autorizacion,
             'monto' => $monto,
             'nuntarjeta' => $tarjeta,
+            'nombre'=>$nombre,
             'banco' => $banco);
         $this->db->insert('voucher',$datos);
         return true;

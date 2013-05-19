@@ -35,7 +35,7 @@ if (isset($resultado)) {
         if (isset($lugares)) {
             foreach ($lugares as $lugar) {
                 ?>
-                <option value="<?= $lugar->id ?>"<?= set_select('lugarentrega', $lugar->id) ?>><?= $lugar->nombre ?></option>
+                <option value="<?= $lugar->id ?>"<?= set_select('lugarentrega', $lugar->id) ?>><?= $lugar->nombre." ($lugar->valor)" ?></option>
             <?php
             }
         }
@@ -48,7 +48,7 @@ if (isset($resultado)) {
         if (isset($lugares)) {
             foreach ($lugares as $lugar) {
                 ?>
-                <option value="<?= $lugar->id ?>"<?= set_select('lugarrecepcion', $lugar->id) ?>><?= $lugar->nombre ?></option>
+                <option value="<?= $lugar->id ?>"<?= set_select('lugarrecepcion', $lugar->id) ?>><?= $lugar->nombre." ($lugar->valor)" ?></option>
     <?php
     }
 }
@@ -57,13 +57,17 @@ if (isset($resultado)) {
 
     <label>Email:</label>
     <input type="email" name="email" value="<?= set_value('email') ?>">
+    <br>
+    Enviar cotizacion Al Email:<input type="checkbox" name="enviar" value="si">
+    <br>
 <?php if (isset($costo)) { ?>
-        <label><b>Costo: <?= $costo ?></b></label>
+    <label class="label label-important"><b>Costo: <?= $costo ?></b></label>
     <?php }
     ?>
-    <input type="submit" value="cotizar" name="btncotizar">
+    <br>
+    <input class="btn btn-primary"type="submit" value="cotizar" name="btncotizar">
 </form>
-        <form method="post" action="<?= base_url() ?>index.php/GestorReservas/reservar">
+        <form method="post" action="<?= base_url() ?>index.php/gestorReservas/reservar">
 <?php if (isset($vehiculo)) { ?>
         <input type="hidden" value="<?= $vehiculo->placa ?>" name="placa"> 
 <?php }
@@ -75,7 +79,7 @@ if (isset($resultado)) {
     
 <?php if (isset($costo)) { ?>
     <input  type="hidden" name="costo" value="<?= $costo ?>">
-        <input type="submit" value="Reservar" name="btnreservar">
+    <input class="btn btn-success" type="submit" value="Reservar" name="btnreservar">
 <?php } ?>
 </form>
 

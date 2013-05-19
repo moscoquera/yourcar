@@ -30,7 +30,7 @@ class mmantenimientos extends CI_Model {
         return true;
     }
 
-    public function proximosMantenimientos() {
+    public function proximosmantenimientos() {
         $q="select * from vehiculo left join mantenimientos on vehiculo.placa = mantenimientos.vehiculo where datediff(adddate(curdate(),interval 30 day),adddate(mantenimientos.fecha_ingreso,interval 730 day)) > 0 || datediff(adddate(curdate(),interval 30 day),mantenimientos.fecha_ingreso)  is null";
         return $this->db->query($q)->result();
     }

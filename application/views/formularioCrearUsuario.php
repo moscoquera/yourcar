@@ -1,13 +1,34 @@
-<?=
-validation_errors();
+<?php
+echo validation_errors('<div class="alert alert-error"> <p>', '</p></div>');
 
 if (isset($resultado)) {
     if ($resultado == 'si') {
         ?> 
-        <div> <p>Usuario Agregado</p></div>
-    <?php } else {
+        <div class="alert alert-success"> <p>Usuario Agregado</p></div>
+        <?php
+    } elseif ($resultado == 'no') {
+        if (isset($error)) {
+            if ($error == 'email') {
+                ?> 
+                <div class="alert alert-error"> <p>El Email ya esta en Uso</p></div>
+                <?php
+            } else if ($error == 'nick') {
+                ?> 
+                <div class="alert alert-error"> <p>El nick ya esta en uso</p></div>
+                <?php
+            } elseif ($error == 'doc') {
+                ?> 
+                <div class="alert alert-error"> <p>El numero de documento ya esta en nuestra base de datos</p></div>
+                <?php
+            }
+        } else {
+            ?> 
+            <div class="alert alert-error"> <p>Error Agregando usuario</p></div>
+            <?php
+        }
+    } else {
         ?> 
-        <div> <p>Error Agregando usuario</p></div>
+        <div class="alert alert-error"> <p>Error Agregando usuario</p></div>
         <?php
     }
 }
@@ -18,7 +39,7 @@ if (isset($resultado)) {
             <label>Nombre Completo: </label>
             <input type="text" name="nombrecompleto" id="nombrecompleto">
 
-            <br />  <br /> <label>Soy Un(a): </label> <br />
+            <label>Soy Un(a): </label> 
             <select name="tipo" id="tipo" onchange="oncambio()">
                 <?php
                 if (isset($tipousuarios)) {
@@ -30,7 +51,7 @@ if (isset($resultado)) {
                 }
                 ?>
             </select>
-            <br /> <br /> <label>Tipo de Documento:</label> <br />
+            <label>Tipo de Documento:</label> 
             <select name="tipodoc">
                 <?php
                 if (isset($documentos)) {
@@ -42,17 +63,17 @@ if (isset($resultado)) {
                 }
                 ?>
             </select>
-            <br /> <br /> <label > N° Documento:</label> <br />
+            <label > N° Documento:</label> 
             <input type="text" name="numdoc">
-            <br /> <br /> <label class="humano">Fecha De Nacimiento:</label> <br />
+            <label class="humano">Fecha De Nacimiento:</label> 
             <input class="humano" type="date" name="fechanaci" id="fechanaci">
-            <br /> <br /><label>Pais:</label>  <br />
+            <label>Pais:</label>  
             <input type="text" name="pais">
-            <br /> <br /> <label>Ciudad:</label> <br />
+            <label>Ciudad:</label> 
             <input type="text" name="ciudad">
-            <br /> <br /> <label class="humano">Tipo Sanguineo:</label> <br />
+            <label class="humano">Tipo Sanguineo:</label> 
             <input class="humano" name="tiposangre" type="text" maxlength="3">
-            <br /> <br /> <label class="humano">Genero:</label> <br />
+            <label class="humano">Genero:</label> 
             <select class="humano" name="genero">
                 <?php
                 if (isset($generos)) {
@@ -66,17 +87,19 @@ if (isset($resultado)) {
             </select>
         </div>
         <div class="offset2 span4">
-            <label class="hotel">Representate:</label> <br />
+            <label class="hotel">Representate:</label> 
             <input class="hotel" type="text" name="nombrecontacto">
-            <br /> <br /> <label class="hotel">Direccion Representante:</label> <br />
-            <input class="hotel"  type="text" name="direccioncontacto">
-            <br /> <br /> <label>Telefono:</label> <br />
+            <label>Direccion:</label> 
+            <input  type="text" name="direccioncontacto">
+            <label>Telefono fijo:</label> 
             <input type="tel" name="telefono">
-            <br /> <br /> <label>Nick:</label> <br />
+            <label>Celular:</label> 
+            <input type="tel" name="celular">
+            <label>Nick:</label> 
             <input type="text" name="nick" id="nick">
-            <br /> <br /> <label>Email:</label> <br />
-            <input type="email" name="email" id="email"> <br />
-            <br /> <br />  <label>Rol:</label> <br />
+            <label>Email:</label> 
+            <input type="email" name="email" id="email"> 
+            <label>Rol:</label> 
             <select name="rol" id="rol">
                 <?php
                 if (isset($roles)) {
@@ -88,13 +111,13 @@ if (isset($resultado)) {
                 }
                 ?>
             </select>
-            <br /> <br /> <label>Contraseña</label> <br />
+            <label>Contraseña</label> 
             <input type="password" name="contra" id="contra">
             <div>
-                <br /> <br /> <label> Repetir Contraseña</label> <br />
+                <label> Repetir Contraseña</label> 
                 <input type="password" name="repcontra" id="repcontra">
             </div>
-            <br /> <input type="submit" value="Agregar" class="btn btn-primary"> 
+            <input type="submit" value="Agregar" class="btn btn-primary"> 
         </div>
 
     </form>

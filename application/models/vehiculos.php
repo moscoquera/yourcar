@@ -29,7 +29,7 @@ class Vehiculos extends CI_Model{
         
     }
     
-    public function insertarVehiculo($placa,$marca,$modelo,$color,$cilindraje,$frenos,$direccion,$descripcion,$pasajeros,$fechasoat,$fechaseguro,$fecharevision,$tarifa,$garantia,$kmsdia,$iva,$gasolina,$lavada){
+    public function insertarVehiculo($placa,$marca,$modelo,$color,$cilindraje,$frenos,$direccion,$descripcion,$pasajeros,$fechasoat,$fechaseguro,$fecharevision,$tarifa,$garantia,$kmsdia,$iva,$gasolina,$lavada,$airbags,$conductor,$fechaaceite,$gama,$transmision,$traccion,$foto){
      
         if (sizeof($this->buscarVehiculo($placa))>0){
             return false;
@@ -52,7 +52,14 @@ class Vehiculos extends CI_Model{
             'kmsdia'=>$kmsdia,
             'iva'=>$iva,
             'valorgasolina'=>$gasolina,
-            'valorlavada'=>$lavada
+            'valorlavada'=>$lavada,
+            'airbags'=>$airbags,
+            'precioconductor'=>$conductor,
+            'gama'=>$gama,
+            'transmision'=>$transmision,
+            'traccion'=>$traccion,
+            'fechaaceite'=>$fechaaceite,
+            'foto'=>$foto
             
         );
         $this->db->insert('vehiculo', $datos);
@@ -65,7 +72,7 @@ class Vehiculos extends CI_Model{
         return $this->db->get()->result();
     }
     
-    public function actualizarVehiculo($placa,$marca,$modelo,$color,$cilindraje,$frenos,$direccion,$descripcion,$pasajeros,$fechasoat,$fechaseguro,$fecharevision,$tarifa,$garantia){
+    public function actualizarVehiculo($placa,$marca,$modelo,$color,$cilindraje,$frenos,$direccion,$descripcion,$pasajeros,$fechasoat,$fechaseguro,$fecharevision,$tarifa,$garantia, $kmsdia, $iva, $gasolina, $lavada, $airbags, $conductor, $fechaaceite, $gama, $transmision, $traccion, $foto){
      
         if (sizeof($this->buscarVehiculo($placa))!=1){
             return false;
@@ -83,9 +90,23 @@ class Vehiculos extends CI_Model{
             'fechaseguro'=>$fechaseguro,
             'fecharevision'=>$fecharevision,
             'tarifa'=>$tarifa,
-            'garantia'=>$garantia
+            'garantia'=>$garantia,
+            'kmsdia'=>$kmsdia,
+            'iva'=>$iva,
+            'valorgasolina'=>$gasolina,
+            'valorlavada'=>$lavada,
+            'airbags'=>$airbags,
+            'precioconductor'=>$conductor,
+            'gama'=>$gama,
+            'transmision'=>$transmision,
+            'traccion'=>$traccion,
+            'fechaaceite'=>$fechaaceite
+            
             
         );
+        if ($foto != null){
+            $datos['foto']=$foto;
+        }
         $this->db->where('placa',$placa);
         $this->db->update('vehiculo',$datos);
         return true;
@@ -125,6 +146,18 @@ class Vehiculos extends CI_Model{
             $this->db->where($filtro,$valor);
         }
         return $this->db->get()->result();
+    }
+    
+    public function gamas(){
+        return $this->db->get('gama_vehiculo')->result();
+    }
+    
+    public function traccion(){
+        return $this->db->get('traccion_vehiculos')->result();
+    }
+    
+    public function transmision(){
+        return $this->db->get('transmision_vehiculos')->result();
     }
 }
 ?>

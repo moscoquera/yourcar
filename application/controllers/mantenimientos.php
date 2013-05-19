@@ -20,7 +20,7 @@ class mantenimientos extends CI_Controller {
         }
 
         $this->load->view('headerPublico');
-        $this->load->view('indexMantenimientos');
+        $this->load->view('indexmantenimientos');
         $this->load->vars('footerPublico');
     }
 
@@ -65,7 +65,7 @@ class mantenimientos extends CI_Controller {
     }
 
     public function mantenimientoPreventivo(){
-        $proximos = $this->mmantenimientos->proximosMantenimientos();
+        $proximos = $this->mmantenimientos->proximosmantenimientos();
         $datos['proximos']=$proximos;
         $this->load->view('headerPublico');
         $this->load->view('proximosmantenimientos',$datos);

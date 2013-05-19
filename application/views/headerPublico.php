@@ -23,7 +23,7 @@
             <div class="span12"> 
             <div class="navbar" style="margin-top: 32px !important">
             <div class="navbar-inner">
-                <a class="brand" href="<?= base_url(); ?>">YOURCAR</a>
+                <a class="brand" href="<?= base_url(); ?>">Página Principal</a>
                 <ul class="nav">
                     <?php
                     if (isset($linksmenu)) {

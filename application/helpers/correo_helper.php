@@ -47,4 +47,14 @@ function actualizacionPago($id,$nombre,$estado){
     $texto.="En el Estado de:  $estado\n";
     return $texto;
 }
+
+function nuevaCotizacion($vehiculo,$precio){
+    $texto="Hola\n";
+    $texto.="Recibe este email, debido a una cotizacion realizada en Yourcar\n";
+    $texto.="Datos:\n";
+    $texto.="Modelo $vehiculo->modelo\n";
+    $texto.="Marca: $vehiculo->marca\n";
+    $texto.="Resultado de la Cotizacion: $precio";
+    return $texto;
+}
 ?>

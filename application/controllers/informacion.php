@@ -12,7 +12,7 @@ class informacion extends CI_Controller {
         $this->load->model('info');
     }
 
-    public function modificarInformacion() {
+    public function modificarinformacion() {
         $datos = array();
 
         $usr = $this->session->userdata('usuario');
@@ -63,7 +63,7 @@ class informacion extends CI_Controller {
         $datos['objetivos'] = (sizeof($datos['objetivos']) > 0) ? $datos['objetivos'][0]->valor : '';
 
         $this->load->view('headerPublico');
-        $this->load->view('modificarInformacion', $datos);
+        $this->load->view('modificarinformacion', $datos);
         $this->load->view('footerPublico');
     }
 

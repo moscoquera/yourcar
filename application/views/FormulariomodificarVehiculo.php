@@ -3,21 +3,25 @@ echo validation_errors('<p><b>', '</b></p>');
 if (isset($resultado)) {
     if ($resultado == 'nove') {
         ?>
-        <p><b>Vehiculo no encontrado</b></p>
-        <?php } else if ($resultado == 'si') {
+        <div class="alert alert-error"><p>Vehiculo no encontrado</p></div>
+    <?php } else if ($resultado == 'si') {
         ?>
-        <p><b>Informacion Actualizada</b></p>
-        
-    <?php } else {
+        <div class="alert alert-success"><p>informacion Actualizada</p></div>
+
+    <?php } else if ($resultado == 'fotoerr') {
         ?>
-        <p><b>Vehiculo no Actualizado</b></p>
-        
-    <?php
+        <div class="alert alert-error"><p><?= $error ?></p></div>
+        <?php
+    } else {
+        ?>
+        <div class="alert alert-error"><p>Vehiculo no Actualizado</p></div>
+
+        <?php
     }
 }
 if (isset($vehiculo)) {
     ?>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <br /><br /> <label>Placa:</label>
         <input type="text" name="placa" maxlength="7" value="<?= $vehiculo->placa ?>" readonly="true">
         <br /><br /><label>Marca:</label>
@@ -34,13 +38,15 @@ if (isset($vehiculo)) {
             if (isset($frenos)) {
                 foreach ($frenos as $freno) {
                     ?>
-                    <option value="<?= $freno->id ?>" <?php if ($freno->id == $vehiculo->frenos) {
+                    <option value="<?= $freno->id ?>" <?php
+            if ($freno->id == $vehiculo->frenos) {
                 echo 'selected="selected"';
-            } ?>><?= $freno->nombre ?></option>
-                    <?php
-                }
             }
-            ?>
+                    ?>><?= $freno->nombre ?></option>
+                            <?php
+                        }
+                    }
+                    ?>
         </select>
         <br /><br /><label>Direccion:</label>
         <select name="direccion">
@@ -48,13 +54,15 @@ if (isset($vehiculo)) {
             if (isset($direccion)) {
                 foreach ($direccion as $dir) {
                     ?>
-                    <option value="<?= $dir->id ?>" <?php if ($dir->id == $vehiculo->direccion) {
+                    <option value="<?= $dir->id ?>" <?php
+            if ($dir->id == $vehiculo->direccion) {
                 echo 'selected="selected"';
-            } ?>><?= $dir->nombre ?></option>
-            <?php
-        }
-    }
-    ?>
+            }
+                    ?>><?= $dir->nombre ?></option>
+                            <?php
+                        }
+                    }
+                    ?>
         </select>
         <br /><br /> <label>Descripcion:</label> <br />
         <textarea name="descripcion"><?= $vehiculo->descripcion ?></textarea>
@@ -70,7 +78,78 @@ if (isset($vehiculo)) {
         <input type="number" name="tarifa" min="0" value="<?= $vehiculo->tarifa ?>">
         <br /><br /><label>Garantia:</label>
         <input type="number" name="garantia" min="0" value="<?= $vehiculo->garantia ?>">
-        <input type="submit" value="Modificar" name="modificar">
+
+        <label>Kms por Dia:</label> 
+        <input type="number" name="kmsdia" min="0" value="<?= $vehiculo->kmsdia?>">  
+        <label>Iva (%):</label> 
+        <input type="number" name="iva" min="0"  value="<?= $vehiculo->iva?>">  
+        <label>Valor Galon de Gasolina:</label> 
+        <input type="number" name="gasolina" min="0" value="<?= $vehiculo->valorgasolina?>">  
+        <label>Valor Lavada:</label> 
+        <input type="number" name="lavada" min="0" value="<?= $vehiculo->valorlavada?>">
+        <div>Tiene Airbags:
+            <input type="checkbox" name="airbags" value="si" checked="<?= ($vehiculo->airbags == '1')?'true':''?>">
+        </div>
+        <label>Precio Servicio Conductor:</label>
+        <input type="number" name="conductor" min="0" value="<?= $vehiculo->precioconductor ?>">
+        <label>Fecha cambio de Aceite:</label>
+        <input type="date" name="fechaaceite" value="<?= $vehiculo->fechaaceite ?>">
+        <label>Gama:</label>
+        <select name="gama">
+            <?php
+            if (isset($gamas)) {
+                foreach ($gamas as $dir) {
+                    ?>
+                    <option value="<?= $dir->id ?>" <?php
+            if ($dir->id == $vehiculo->gama) {
+                echo 'selected="selected"';
+            }
+                    ?>><?= $dir->nombre ?></option>
+                    <?php
+                }
+            }
+            ?>
+        </select>
+        <label>Transmision:</label>
+        <select name="transmision">
+            <?php
+            if (isset($transmision)) {
+                foreach ($transmision as $dir) {
+                    ?>
+                    <option value="<?= $dir->id ?>" <?php
+            if ($dir->id == $vehiculo->transmision) {
+                echo 'selected="selected"';
+            }
+                    ?>><?= $dir->nombre ?></option>
+                        <?php
+                }
+            }
+            ?>
+        </select>
+        <label>Tracción:</label>
+        <select name="traccion">
+            <?php
+            if (isset($traccion)) {
+                foreach ($traccion as $dir) {
+                    ?>
+                    
+                        <option value="<?= $dir->id ?>" <?php
+            if ($dir->id == $vehiculo->traccion) {
+                echo 'selected="selected"';
+            }
+                    ?>><?= $dir->nombre ?></option><?php
+                }
+            }
+            ?>
+        </select>
+        <label>Imagen: (no subir nada para no modificar la imagen actual)</label>
+        <img style="max-height: 300px;max-width: 300px" src="<?= base_url()?>uploads/<?= $vehiculo->foto ?>">
+        <br>
+        <input type="file" name="foto">
+        <br>
+
+
+        <input class="btn btn-info" type="submit" value="Modificar" name="modificar">
     </form>
 <?php } else {
     ?>

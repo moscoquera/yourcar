@@ -53,14 +53,14 @@ class usuarios extends CI_Model{
     
     public function insertarUsuario($nombre, $nick, $email, $contra, $rol,$tipodoc,$numdoc,$fechanaci,$pais,$ciudad,$sangre,$genero,$tipo){
         if (sizeof($this->obtenerUsuarioPorEmail($email))>0){
-            return false;
+            return 'email';
         }
         
         if (sizeof($this->obtenerUsuarioPorNick($nick))>0){
-            return false;
+            return 'nick';
         }
         if (sizeof($this->obtenerUsuarioPorDocumento($numdoc))>0){
-            return false;
+            return 'doc';
         }
         $datos = array(
             'nombres'=>$nombre,
@@ -82,7 +82,7 @@ class usuarios extends CI_Model{
         return true;
     }
     
-    public function insertarContacto($nick,$nomcont,$telefono,$dircont){
+    public function insertarContacto($nick,$nomcont,$telefono,$dircont,$celular){
         if (sizeof($this->obtenerUsuarioPorNick($nick))==0){
             return false;
         }
@@ -90,7 +90,8 @@ class usuarios extends CI_Model{
             'dueno'=>$nick,
             'nombre'=>$nomcont,
             'telefono'=>$telefono,
-            'direccion'=>$dircont
+            'direccion'=>$dircont,
+            'celular'=>$celular
         );
         $this->db->insert('contacto',$datos);
     }

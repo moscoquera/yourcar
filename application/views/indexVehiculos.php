@@ -7,6 +7,7 @@
         <li><a href="<?= base_url() ?>index.php/gestionVehiculos/vehiculosReservados">Vehiculos Reservados</a></li> 
         <li><a href="<?= base_url() ?>index.php/gestionVehiculos/vehiculosAlquilados">Vehiculos Alquilados</a></li> 
         <li><a href="<?= base_url() ?>index.php/gestionVehiculos/vehiculosPorAtributos">Según Atributos del Vehiculo</a></li> 
+        <li><a href="<?= base_url() ?>index.php/gestionVehiculos/historialmantenimientos">Historial de mantenimientos</a></li> 
     </ul>
 </div>
 <div>

@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 
-class GestionVoucher extends CI_Controller{
+class gestionVoucher extends CI_Controller{
     static $datos = array();
     
     public function __construct() {
@@ -21,14 +21,14 @@ class GestionVoucher extends CI_Controller{
         if ($usr->rol_id == 1) {
             array_push($this->datos['linksmenu'], crearObjetoLink('PANEL DE USUARIOS', base_url() . 'index.php/gestionarUsuarios'));
         } else if ($usr->rol_id == 2) {
-            array_push($this->datos['linksmenu'], crearObjetoLink('Mis Reservas', base_url() . 'index.php/GestorReservas'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Reservas', base_url() . 'index.php/gestorReservas'));
             array_push($this->datos['linksmenu'], crearObjetoLink('Gestionar Vehiculos', base_url() . 'index.php/gestionVehiculos'));
-            array_push($this->datos['linksmenu'], crearObjetoLink('Modificar Información', base_url() . 'index.php/informacion/modificarInformacion'));
-            array_push($this->datos['linksmenu'], crearObjetoLink('Mantenimientos', base_url() . 'index.php/mantenimientos'));
-            array_push($this->datos['linksmenu'], crearObjetoLink('Registrar Voucher', base_url() . 'index.php/GestionVoucher/nuevoVoucher'));
-            array_push($this->datos['linksmenu'], crearObjetoLink('Consultar Voucher', base_url() . 'index.php/GestionVoucher'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Modificar Información', base_url() . 'index.php/informacion/modificarinformacion'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('mantenimientos', base_url() . 'index.php/mantenimientos'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Registrar Voucher', base_url() . 'index.php/gestionVoucher/nuevoVoucher'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Consultar Voucher', base_url() . 'index.php/gestionVoucher'));
         } else if ($usr->rol_id == 3) {
-            array_push($this->datos['linksmenu'], crearObjetoLink('Mis Reservas', base_url() . 'index.php/GestorReservas'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Reservas', base_url() . 'index.php/gestorReservas'));
         }
     }
     
@@ -73,14 +73,16 @@ class GestionVoucher extends CI_Controller{
         $btn = $this->input->post('ingresar');
         if ($btn != false){
             $this->form_validation->set_rules('documento','Numero de Documento','required');
+            $this->form_validation->set_rules('nombre','Nombre del Cliente','required');
             $this->form_validation->set_rules('franquicia','Franquicia','required');
             $this->form_validation->set_rules('autorizacion','Numero de Autorizacion del Voucher','required|is_natural');
-            $this->form_validation->set_rules('verificacion','Numero de Verificación de la Transaccion','required|is_natural');
+            $this->form_validation->set_rules('verificacion','Numero de Verificación de la Tarjeta','required|is_natural');
             $this->form_validation->set_rules('monto','Monto','required|is_numeric');
             $this->form_validation->set_rules('tarjeta','Numero de la Tarjeta','required|is_numeric');
             $this->form_validation->set_rules('banco','Banco','required|max_length[100]');
             if ($this->form_validation->run() != FALSE){
                 $documento = $this->input->post('documento');
+                $nombre = $this->input->post('nombre');
                 $franquicia = $this->input->post('franquicia');
                 $autorizacion = $this->input->post('autorizacion');
                 $verificacion = $this->input->post('verificacion');
@@ -92,7 +94,7 @@ class GestionVoucher extends CI_Controller{
                     $this->datos['resultado']='errnocli';
                 }else {
                     $cliente = $cliente[0];
-                    $this->voucher->ingresarVoucher($documento,$franquicia,$autorizacion,$verificacion,$monto,$tarjeta,$banco);
+                    $this->voucher->ingresarVoucher($documento,$nombre,$franquicia,$autorizacion,$verificacion,$monto,$tarjeta,$banco);
                     $this->datos['resultado']='si';
                     
                 }

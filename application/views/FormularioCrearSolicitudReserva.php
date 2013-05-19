@@ -1,13 +1,21 @@
 <?php
-echo validation_errors('<b>', '</b>');
+echo validation_errors('<div class="alert alert-error"><p>', '</p></div>');
 if (isset($resultado)) {
     if ($resultado == 'errfecha') {
         ?>
-        <b>El rango de fechas no es valido</b>
+        <div class="alert alert-error"><p>El rango de fechas no es valido</p></div>
+        <?php } else if ($resultado == 'si') {
+        ?>
+        <div class="alert alert-success"><p>Reserva Creada</p></div>
     <?php
-    }else if ($resultado == 'si'){ ?>
-        <b>Reserva Creada</b>
-   <?php }
+    }else if ($resultado == 'no'){ 
+        if (isset($error)){
+            if ($error == 'colision'){ ?>
+            <div class="alert alert-error"><p>El vehiculo ya tiene una reserva para uno o mas dias durante las fechas que usted desea reservar. por favor cambie de vehiculo</p></div>
+          <?php }
+        }
+        
+    }
 }
 ?>
 <form method="post">
@@ -22,34 +30,36 @@ if (isset($resultado)) {
     <input type="text" value="<?= $usuario->ndocumento ?>" disabled="true">
     <br/><br/><label>Direccion:</label>
     <input type="text" value="<?= $usuario->direccion ?>" disabled="true">
-    <?php if (isset($vehiculo)){ ?>
-    <h2>Vehiculo</h2>
-    <input type="hidden" value="<?= $vehiculo->placa ?>" name="placa"> 
-    <br/><br/><label>Marca:</label>
-    <input type="text" value="<?= $vehiculo->marca ?>" disabled="true">
-    <br/><br/><label>Modelo:</label>
-    <input type="text" value="<?= $vehiculo->modelo ?>" disabled="true">
-    <br/><br/><label>Color:</label>
-    <input type="text" value="<?= $vehiculo->color ?>" disabled="true">
-    <br/><br/><label>Cilindraje:</label>
-    <input type="text" value="<?= $vehiculo->cilindraje ?>" disabled="true">
-    <br/><br/><label>Frenos:</label>
-    <input type="text" value="<?= $vehiculo->frenos ?>" disabled="true">
-    <br/><br/><label>Direccion:</label>
-    <input type="text" value="<?= $vehiculo->direccion ?>" disabled="true">
-    <br/><br/><label>Pasajeros:</label>
-    <input type="text" value="<?= $vehiculo->npasajeros ?>" disabled="true">
-    <?php }else{ ?>
-    <br/><br/><label>Vehiculo:</label>
-    <select name="placa"> <?php
-       if (isset($vehiculos)){
-           foreach ($vehiculos as $vehiculo){ ?>
-        <option value="<?= $vehiculo->placa ?>" <?= set_select('placa',$vehiculo->placa)?>><?= $vehiculo->marca."=>".$vehiculo->modelo?></option>
-          <?php }
-       } 
-    ?> </select>
-    <?php } ?>
-    
+<?php if (isset($vehiculo)) { ?>
+        <h2>Vehiculo</h2>
+        <input type="hidden" value="<?= $vehiculo->placa ?>" name="placa"> 
+        <br/><br/><label>Marca:</label>
+        <input type="text" value="<?= $vehiculo->marca ?>" disabled="true">
+        <br/><br/><label>Modelo:</label>
+        <input type="text" value="<?= $vehiculo->modelo ?>" disabled="true">
+        <br/><br/><label>Color:</label>
+        <input type="text" value="<?= $vehiculo->color ?>" disabled="true">
+        <br/><br/><label>Cilindraje:</label>
+        <input type="text" value="<?= $vehiculo->cilindraje ?>" disabled="true">
+        <br/><br/><label>Frenos:</label>
+        <input type="text" value="<?= $vehiculo->frenos ?>" disabled="true">
+        <br/><br/><label>Direccion:</label>
+        <input type="text" value="<?= $vehiculo->direccion ?>" disabled="true">
+        <br/><br/><label>Pasajeros:</label>
+        <input type="text" value="<?= $vehiculo->npasajeros ?>" disabled="true">
+<?php } else { ?>
+        <br/><br/><label>Vehiculo:</label>
+        <select name="placa"> <?php
+            if (isset($vehiculos)) {
+                foreach ($vehiculos as $vehiculo) {
+                    ?>
+                    <option value="<?= $vehiculo->placa ?>" <?= set_select('placa', $vehiculo->placa) ?>><?= $vehiculo->marca . "=>" . $vehiculo->modelo ?></option>
+                <?php
+            }
+        }
+        ?> </select>
+<?php } ?>
+
     <br/><br/><label>Fecha y Hora de inicio:</label>
     <div id="horainicio" class="input-append date">
         <input data-format="dd/MM/yyyy hh:mm" type="text" name="horainicio" value="<?= set_value('horainicio', (isset($horainicio)) ? $horainicio : '') ?>">
@@ -73,13 +83,13 @@ if (isset($resultado)) {
             foreach ($lugares as $lugar) {
                 if (!isset($lugarentrega)) {
                     ?>
-                    <option value="<?= $lugar->id ?>"<?= set_select('lugarentrega', $lugar->id) ?>><?= $lugar->nombre ?></option>
+                    <option value="<?= $lugar->id ?>"<?= set_select('lugarentrega', $lugar->id) ?>><?= $lugar->nombre . " ($lugar->valor)" ?></option>
                 <?php } else { ?>
                     <option value="<?= $lugar->id ?>" <?php
-                    if ($lugarentrega == $lugar->id) {
-                        echo "selected='true'";
-                    }
-                    ?>> <?= $lugar->nombre ?></option>
+                            if ($lugarentrega == $lugar->id) {
+                                echo "selected='true'";
+                            }
+                            ?>> <?= $lugar->nombre . " ($lugar->valor)" ?></option>
                             <?php
                         }
                     }
@@ -94,13 +104,13 @@ if (isset($resultado)) {
             foreach ($lugares as $lugar) {
                 if (!isset($lugarrecepcion)) {
                     ?>
-                    <option value="<?= $lugar->id ?>"<?= set_select('lugarrecepcion', $lugar->id) ?>><?= $lugar->nombre ?></option>
+                    <option value="<?= $lugar->id ?>"<?= set_select('lugarrecepcion', $lugar->id) ?>><?= $lugar->nombre . " ($lugar->valor)" ?></option>
                 <?php } else { ?>
                     <option value="<?= $lugar->id ?>" <?php
-                if ($lugarrecepcion == $lugar->id) {
-                    echo "selected='true'";
-                }
-                    ?> ><?= $lugar->nombre ?></option>
+                            if ($lugarrecepcion == $lugar->id) {
+                                echo "selected='true'";
+                            }
+                            ?> ><?= $lugar->nombre . " ($lugar->valor)" ?></option>
 
                     <?php
                 }
@@ -109,7 +119,7 @@ if (isset($resultado)) {
         ?>
     </select>
 
-<?php if (isset($costo)) { ?>
+    <?php if (isset($costo)) { ?>
         <br/><br/><label><b>Costo: <?= $costo ?></b></label>
 <?php }
 ?>

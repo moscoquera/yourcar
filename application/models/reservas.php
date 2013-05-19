@@ -15,7 +15,11 @@ class reservas extends CI_Model{
     }
     
     public function insertarReserva($usuario,$placa,$precio,$fechai,$fechaf,$lugarini,$lugarfin){
-        
+        $q="select * from reserva where placavehiculo = '$placa' and ((fechainicio<='$fechaf' and fechafin>='$fechaf') or (fechainicio<='$fechai' and fechafin>='$fechai') or (fechainicio>='$fechai' and fechafin<='$fechaf'))";
+        $q=$this->db->query($q)->result();
+        if (sizeof($q)>0){
+            return 'colision';
+        }
         $datos = array('usuarioid'=>$usuario,'placavehiculo'=>$placa,'precio'=>$precio,'fechainicio'=>$fechai,'fechafin'=>$fechaf,'lugarinicio'=>$lugarini,'lugarfin'=>$lugarfin);
         $this->db->insert('reserva',$datos);
         return true;

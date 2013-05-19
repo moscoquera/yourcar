@@ -23,14 +23,14 @@ class gestionarUsuarios extends CI_Controller {
         if ($usr->rol_id == 1) {
             array_push($this->datos['linksmenu'], crearObjetoLink('PANEL DE USUARIOS', base_url() . 'index.php/gestionarUsuarios'));
         } else if ($usr->rol_id == 2) {
-            array_push($this->datos['linksmenu'], crearObjetoLink('Mis Reservas', base_url() . 'index.php/GestorReservas'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Reservas', base_url() . 'index.php/gestorReservas'));
             array_push($this->datos['linksmenu'], crearObjetoLink('Gestionar Vehiculos', base_url() . 'index.php/gestionVehiculos'));
-            array_push($this->datos['linksmenu'], crearObjetoLink('Modificar Información', base_url() . 'index.php/informacion/modificarInformacion'));
-            array_push($this->datos['linksmenu'], crearObjetoLink('Mantenimientos', base_url() . 'index.php/mantenimientos'));
-            array_push($this->datos['linksmenu'], crearObjetoLink('Registrar Voucher', base_url() . 'index.php/GestionVoucher/nuevoVoucher'));
-            array_push($this->datos['linksmenu'], crearObjetoLink('Consultar Voucher', base_url() . 'index.php/GestionVoucher'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Modificar Información', base_url() . 'index.php/informacion/modificarinformacion'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('mantenimientos', base_url() . 'index.php/mantenimientos'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Registrar Voucher', base_url() . 'index.php/gestionVoucher/nuevoVoucher'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Consultar Voucher', base_url() . 'index.php/gestionVoucher'));
         } else if ($usr->rol_id == 3) {
-            array_push($this->datos['linksmenu'], crearObjetoLink('Mis Reservas', base_url() . 'index.php/GestorReservas'));
+            array_push($this->datos['linksmenu'], crearObjetoLink('Reservas', base_url() . 'index.php/gestorReservas'));
         }
     }
 
@@ -58,15 +58,16 @@ class gestionarUsuarios extends CI_Controller {
         $this->form_validation->set_rules('repcontra', 'Contraseña 2', 'required|matches[contra]');
         $this->form_validation->set_rules('pais', 'pais', 'required|max_length[45]');
         $this->form_validation->set_rules('ciudad', 'ciudad', 'required|max_length[45]');
-        $this->form_validation->set_rules('telefono', 'telefono', 'required|max_length[45]');
-        $this->form_validation->set_rules('numdoc', 'documento de identidad', 'required|max_length[20]|alpha_numeric');
+        $this->form_validation->set_rules('telefono', 'telefono', 'required|max_length[45]|is_natural');
+        $this->form_validation->set_rules('celular', 'celular', 'required|max_length[45]|is_natural');
+        $this->form_validation->set_rules('numdoc', 'documento de identidad', 'required|max_length[20]|is_natural');
 
         //tipo de usuario
         $tip = $this->input->post('tipo');
         if ($tip != false) {
             //es una persona natural
             if ($tip == '1') {
-                $this->form_validation->set_rules('fechanaci', 'fecha de nacimiento', 'required');
+                $this->form_validation->set_rules('fechanaci', 'fecha de nacimiento', 'required|callback_edad');
                 $this->form_validation->set_rules('tiposangre', 'tipo sanguineo', 'required|max_length[3]');
                 $this->form_validation->set_rules('genero', 'genero', 'required');
             } else if ($tip == '2') { //es un hotel
@@ -84,6 +85,7 @@ class gestionarUsuarios extends CI_Controller {
             $pais = $this->input->post('pais');
             $ciudad = $this->input->post('ciudad');
             $telefono = $this->input->post('telefono');
+            $celular = $this->input->post('celular');
             $tipodoc = $this->input->post('tipodoc');
             $numdoc = $this->input->post('numdoc');
             $fechanaci = $this->input->post('fechanaci');
@@ -96,18 +98,21 @@ class gestionarUsuarios extends CI_Controller {
             $res = false;
             if ($tipo == '1') {
                 $res = $this->usuarios->insertarUsuario($nombre, $nick, $email, $contra, $rol, $tipodoc, $numdoc, $fechanaci, $pais, $ciudad, $sangre, $genero, $tipo);
-                $this->usuarios->insertarContacto($nick, $nombre, $telefono, null);
+                
             } else if ($tipo == '2') {
                 $res = $this->usuarios->insertarUsuario($nombre, $nick, $email, $contra, $rol, $tipodoc, $numdoc, null, $pais, $ciudad, null, null, $tipo);
-                $this->usuarios->insertarContacto($nick, $nomcont, $telefono, $dircont);
+                
             }
-            //$res = $this->usuarios->insertarUsuario($nombre, $nick, $email, $contra, $rol);
-            if ($res) {
+            if (is_bool($res) && $res){
+                $this->usuarios->insertarContacto($nick, $nomcont, $telefono, $dircont,$celular);
                 $this->gestormensajes->enviarEmail($email, 'Registro de usuario', nuevoEmailRegistro($nombre, $nick, $contra));
-                $this->datos['resultado'] = 'si';
+                $datos['resultado'] = 'si';
             } else {
-                $this->datos['resultado'] = 'no';
+                $datos['resultado'] = 'no';
+                $datos['error']=$res;
+                
             }
+            
         }
 
 
@@ -116,6 +121,19 @@ class gestionarUsuarios extends CI_Controller {
         $this->load->view('footerPublico');
     }
 
+        public function edad($edad){
+        $hoy = new DateTime("now");    
+        $fecha = DateTime::createFromFormat('Y-m-d', $edad);
+         $inter = date_diff($hoy,$fecha);
+         if ($inter->y>=21){
+             return true;
+         }else{
+             $this->form_validation->set_message('edad', 'Debe ser mayor de 21 años');
+             return false;
+         }
+         
+    }
+    
     public function modificarUsuario($nick = null) {
         
         $this->datos['linksmenu'] = $this->menu;
@@ -139,8 +157,9 @@ class gestionarUsuarios extends CI_Controller {
         $this->form_validation->set_rules('pais', 'pais', 'required|max_length[45]');
         $this->form_validation->set_rules('ciudad', 'ciudad', 'required|max_length[45]');
         $this->form_validation->set_rules('telefono', 'telefono', 'required|max_length[45]');
+        $this->form_validation->set_rules('celular', 'celular', 'required|max_length[45]');
         $this->form_validation->set_rules('numdoc', 'documento de identidad', 'required|max_length[20]|alpha_numeric');
-
+        $this->form_validation->set_rules('direccioncontacto', 'Dirección del representante', 'required|max_length[45]');
         //tipo de usuario
         $tip = $this->input->post('tipo');
         if ($tip != false) {
@@ -151,7 +170,7 @@ class gestionarUsuarios extends CI_Controller {
                 $this->form_validation->set_rules('genero', 'genero', 'required');
             } else if ($tip == '2') { //es un hotel
                 $this->form_validation->set_rules('nombrecontacto', 'Nombre del representante', 'required|max_length[45]');
-                $this->form_validation->set_rules('direccioncontacto', 'Dirección del representante', 'required|max_length[45]');
+                
             }
         }
 
@@ -178,14 +197,14 @@ class gestionarUsuarios extends CI_Controller {
             $nomcont = $this->input->post('nombrecontacto');
             $dircont = $this->input->post('direccioncontacto');
             $tipo = $this->input->post('tipo');
+            $celular = $this->input->post('celular');
 
             if ($tipo == '1') {
                 $res = $this->usuarios->actualizarUsuario($nombre, $nick, $email, $contra, $rol, $tipodoc, $numdoc, $fechanaci, $pais, $ciudad, $sangre, $genero, $tipo);
-                $this->usuarios->actualizarContacto($nick, $nombre, $telefono, null);
             } else if ($tipo == '2') {
                 $res = $this->usuarios->actualizarUsuario($nombre, $nick, $email, $contra, $rol, $tipodoc, $numdoc, null, $pais, $ciudad, null, null, $tipo);
-                $this->usuarios->actualizarContacto($nick, $nomcont, $telefono, $dircont);
             }
+            $this->usuarios->actualizarContacto($nick, $nomcont, $telefono, $dircont,$celular);
             if ($res) {
                 $this->datos['resultado'] = 'si';
                 $usr = $this->usuarios->obtenerUsuarioPorNick($nick);

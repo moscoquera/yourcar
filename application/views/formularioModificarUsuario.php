@@ -1,14 +1,14 @@
 <?php
-echo validation_errors();
+echo validation_errors('<div class="alert alert-error"> <p>','</p></div>');
 
 if (isset($resultado)) {
     if ($resultado == 'si') {
         ?>
-        <p>Usuario modificado con exito</p>
+<div class="alert alert-error"><p>Usuario modificado con exito</p></div>
         <?php
     } else {
         ?>
-        <p>Error modificando al Usuario</p>
+<div class="alert alert-error"><p>Error modificando al Usuario</p></div>
         <?php
     }
 }
@@ -16,13 +16,13 @@ if (isset($resultado)) {
 if (isset($usuario)) {
     ?>
     <form action="<?= base_url() ?>index.php/gestionarUsuarios/modificarUsuario/<?= $usuario->nick ?>" method="post">
-       <br><br/> <label>Nick:</label>
+        <label>Nick:</label>
         <input type="text" name="nick" id="nick" value="<?= $usuario->nick?>" readonly="true">
         
-        <br><br/>
+        
         <label>Nombre completo:</label>
         <input type="text" name="nombrecompleto" id="nombrecompleto" value="<?= $usuario->nombres ?>">
-        <br><br/>
+        
         <label>Tipo persona o entidad: </label>
         <select name="tipo" id="tipo" onchange="oncambio()">
             <?php
@@ -35,7 +35,7 @@ if (isset($usuario)) {
             }
             ?>
         </select>
-        <br><br/>
+        
         <label>Tipo de documento:</label>
         <select name="tipodoc">
             <?php
@@ -48,22 +48,22 @@ if (isset($usuario)) {
             }
             ?>
         </select>
-        <br><br/>
+        
         <label >Número de documento:</label>
         <input type="text" name="numdoc" value="<?= $usuario->ndocumento?>">
-        <br><br/>
+        
         <label class="humano">Fecha de nacimiento:</label>
         <input class="humano" type="date" name="fechanaci" id="fechanaci" value="<?= $usuario->fechanacimiento ?>">
-        <br><br/>
+        
         <label>País:</label>
         <input type="text" name="pais" value="<?= $usuario->pais ?>">
-        <br><br/>
+        
         <label>Ciudad:</label>
         <input type="text" name="ciudad" value="<?= $usuario->ciudad ?>">
-        <br><br/>
+        
         <label class="humano">Tipo sanguineo:</label>
         <input class="humano" name="tiposangre" type="text" maxlength="3" value="<?= $usuario->tiposangre ?>">
-        <br><br/>
+        
         <label class="humano">Genero:</label>
         <select class="humano" name="genero">
             <?php
@@ -76,19 +76,21 @@ if (isset($usuario)) {
             }
             ?>
         </select>
-        <br><br/>
+        
         <label class="hotel">Representante:</label>
         <input class="hotel" type="text" name="nombrecontacto" value="<?= $usuario->nombre ?>">
-        <br><br/>
-        <label class="hotel">Dirección representante:</label>
-        <input class="hotel"  type="text" name="direccioncontacto" value="<?= $usuario->direccion ?>">
-        <br><br/>
-        <label>Teléfono:</label>
+        
+        <label class="">Dirección:</label>
+        <input class=""  type="text" name="direccioncontacto" value="<?= $usuario->direccion ?>">
+        
+        <label>Teléfono fijo:</label>
         <input type="tel" name="telefono" value="<?= $usuario->telefono ?>">
-        <br><br/>
+        <label>Celular:</label> 
+        <input type="tel" name="celular" value="<?= $usuario->celular ?>">
+            
         <label>Email:</label>
         <input type="email" name="email" id="email" value="<?= $usuario->email ?>">
-        <br><br/>
+        
         <label>Rol:</label>
         <select name="rol" id="rol">
             <?php
@@ -101,11 +103,11 @@ if (isset($usuario)) {
             }
             ?>
         </select>
-        <br><br/>
+        
         <label>Contraseña: <b><u> =>(Dejar en blanco para no cambiar la contraseña) </u></b></label>
         <input type="password" name="contra" id="contra">
         <div>
-            <br><br/>
+            
             <label> Repetir contraseña</label>
             <input type="password" name="repcontra" id="repcontra">
         </div>

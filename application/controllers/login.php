@@ -21,7 +21,7 @@ class login extends CI_Controller {
         }
 
         $this->load->view('headerPublico');
-        $this->load->view('FormularioLogin');
+        $this->load->view('Formulariologin');
         $this->load->view('footerPublico');
     }
 
@@ -47,7 +47,7 @@ class login extends CI_Controller {
         }
 
         $this->load->view('headerPublico');
-        $this->load->view('FormularioLogin');
+        $this->load->view('Formulariologin');
         $this->load->view('footerPublico');
     }
 
@@ -105,7 +105,7 @@ class login extends CI_Controller {
         $datos['roles'] = $this->usuarios->obtenerRoles();
         $tmp = array();
         foreach ($datos['roles'] as $rol){
-            if ($rol->id != '1'){
+            if ($rol->id != '1' && $rol->id != '2'){
                 array_push($tmp, $rol);
             }
         }
@@ -122,19 +122,20 @@ class login extends CI_Controller {
         $this->form_validation->set_rules('pais', 'pais', 'required|max_length[45]');
         $this->form_validation->set_rules('ciudad', 'ciudad', 'required|max_length[45]');
         $this->form_validation->set_rules('telefono', 'telefono', 'required|max_length[45]');
+        $this->form_validation->set_rules('celular', 'celular', 'required|max_length[45]');
         $this->form_validation->set_rules('numdoc', 'documento de identidad', 'required|max_length[20]|alpha_numeric');
-
+        $this->form_validation->set_rules('direccioncontacto', 'Dirección del representante', 'required|max_length[45]');
         //tipo de usuario
         $tip = $this->input->post('tipo');
         if ($tip != false) {
             //es una persona natural
             if ($tip == '1') {
-                $this->form_validation->set_rules('fechanaci', 'fecha de nacimiento', 'required');
+                $this->form_validation->set_rules('fechanaci', 'fecha de nacimiento', 'required|callback_edad');
                 $this->form_validation->set_rules('tiposangre', 'tipo sanguineo', 'required|max_length[3]');
                 $this->form_validation->set_rules('genero', 'genero', 'required');
             } else if ($tip == '2') { //es un hotel
                 $this->form_validation->set_rules('nombrecontacto', 'Nombre del representante', 'required|max_length[45]');
-                $this->form_validation->set_rules('direccioncontacto', 'Dirección del representante', 'required|max_length[45]');
+            
             }
         }
         //agregar
@@ -147,6 +148,7 @@ class login extends CI_Controller {
             $pais = $this->input->post('pais');
             $ciudad = $this->input->post('ciudad');
             $telefono = $this->input->post('telefono');
+            $celular = $this->input->post('celular');
             $tipodoc = $this->input->post('tipodoc');
             $numdoc = $this->input->post('numdoc');
             $fechanaci = $this->input->post('fechanaci');
@@ -159,17 +161,17 @@ class login extends CI_Controller {
             $res = false;
             if ($tipo == '1') {
                 $res = $this->usuarios->insertarUsuario($nombre, $nick, $email, $contra, $rol, $tipodoc, $numdoc, $fechanaci, $pais, $ciudad, $sangre, $genero, $tipo);
-                $this->usuarios->insertarContacto($nick, $nombre, $telefono, null);
-            } else if ($tipo == '2') {
+           } else if ($tipo == '2') {
                 $res = $this->usuarios->insertarUsuario($nombre, $nick, $email, $contra, $rol, $tipodoc, $numdoc, null, $pais, $ciudad, null, null, $tipo);
-                $this->usuarios->insertarContacto($nick, $nomcont, $telefono, $dircont);
             }
-            //$res = $this->usuarios->insertarUsuario($nombre, $nick, $email, $contra, $rol);
-            if ($res) {
+            if (is_bool($res) && $res){
+                $this->usuarios->insertarContacto($nick, $nomcont, $telefono, $dircont,$celular);
                 $this->gestormensajes->enviarEmail($email, 'Registro de usuario', nuevoEmailRegistro($nombre, $nick, $contra));
                 $datos['resultado'] = 'si';
             } else {
                 $datos['resultado'] = 'no';
+                $datos['error']=$res;
+                
             }
         }
 
@@ -180,6 +182,19 @@ class login extends CI_Controller {
 
     }
 
+    public function edad($edad){
+        $hoy = new DateTime("now");    
+        $fecha = DateTime::createFromFormat('Y-m-d', $edad);
+         $inter = date_diff($hoy,$fecha);
+         if ($inter->y>=21){
+             return true;
+         }else{
+             $this->form_validation->set_message('edad', 'Debe ser mayor de 21 años');
+             return false;
+         }
+         
+    }
+    
 }
 
 ?>
